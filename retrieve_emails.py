@@ -34,7 +34,8 @@ CLEANED_EMAIL_DIR = 'cleaned_emails'
 
 
 def main():
-    """Download all emails to or from EMAIL_ADDRESS. Save the raw .eml files to RAW_EMAIL_DIR and the the cleaned ones to CLEANED_EMAIL_DIR.
+    """
+    Download all emails to or from EMAIL_ADDRESS. Save the raw .eml files to RAW_EMAIL_DIR and the the cleaned ones to CLEANED_EMAIL_DIR.
     """
     if not EMAIL_ADDRESS:
         raise ValueError("Please set the value of EMAIL_ADDRESS in retrieve_emails.py.")

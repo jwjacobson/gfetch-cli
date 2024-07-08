@@ -24,7 +24,9 @@ from email.parser import BytesParser
 OUTPUT_DIR = 'cleaned_emails'
 
 def clean_email_file(email_file):
-    """Take an eml file and output a cleaned .txt."""
+    """
+    Take an eml file and output a cleaned .txt.
+    """
     with open(email_file, 'rb') as f:
         msg = BytesParser(policy=policy.default).parse(f)
 
