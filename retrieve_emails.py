@@ -33,14 +33,15 @@ RAW_EMAIL_DIR = 'raw_emails'
 CLEANED_EMAIL_DIR = 'cleaned_emails'
 
 
-def main():
+def main(email_address):
     """
     Download all emails to or from EMAIL_ADDRESS. Save the raw .eml files to RAW_EMAIL_DIR and the the cleaned ones to CLEANED_EMAIL_DIR.
     """
-    if not EMAIL_ADDRESS:
-        raise ValueError("Please set the value of EMAIL_ADDRESS in retrieve_emails.py.")
+    if not email_address:
+        # raise ValueError("Please set the value of EMAIL_ADDRESS in retrieve_emails.py.")
+        email_address = input("Enter the gmail address whose correspondence you want to back up: ")
 
-    if EMAIL_ADDRESS.split('@') != "gmail.com":
+    if email_address.split('@')[1] != "gmail.com":
         raise ValueError("This script only works for gmail addresses.")
 
     creds = None
@@ -97,4 +98,4 @@ def main():
             break
 
 if __name__ == '__main__':
-    main()
+    main(EMAIL_ADDRESS)

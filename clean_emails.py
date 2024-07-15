@@ -18,7 +18,7 @@
 
 import os
 import email
-lfrom email import policy
+from email import policy
 from email.parser import BytesParser
 
 OUTPUT_DIR = 'cleaned_emails'
