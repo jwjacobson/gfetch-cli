@@ -20,6 +20,7 @@ import os
 import email
 from email import policy
 from email.parser import BytesParser
+from datetime import datetime
 
 OUTPUT_DIR = 'cleaned_emails'
 
@@ -34,6 +35,24 @@ def clean_email_file(email_file):
     subject = msg['Subject']
     to = msg['To']
     from_ = msg['From']
+
+    date_obj = email.utils.parsedate_to_datetime(date)
+    formatted_date = date_obj.strftime("%Y-%m-%d")
+
+    if not subject:
+        formatted_subj = 'no_subject'
+    else:
+        subj_list = []
+        puncts = {',', ' ', '.', '—', '-', "'", '"', ":", ";", "!", "?", "(", ")", "/", "\\"}
+        for char in subject:
+            if char in puncts:
+                continue
+            elif char == " ":
+                subj_list.append('_')
+            else:
+                subj_list.append(char.lower())
+
+        formatted_subj = ''.join(subj_list)
 
     body = ""
 
@@ -61,7 +80,7 @@ def clean_email_file(email_file):
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
 
-    email_filename = os.path.join(OUTPUT_DIR, os.path.basename(email_file).replace('.eml', '.txt'))
+    email_filename = os.path.join(OUTPUT_DIR, f"{formatted_date}__{formatted_subj}.txt")
     with open(email_filename, 'w', encoding='utf-8') as f:
         f.write(email_content)
 
