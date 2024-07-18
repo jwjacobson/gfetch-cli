@@ -1,0 +1,227 @@
+Delivered-To: goodbyemrevans@gmail.com
+Received: by 2002:a05:7022:120d:b0:83:bbf7:3124 with SMTP id ox13csp256521dlb;
+        Fri, 5 Jul 2024 04:06:03 -0700 (PDT)
+X-Received: by 2002:a05:620a:21c1:b0:79d:6919:b9c3 with SMTP id af79cd13be357-79eee1ae596mr436197385a.28.1720177563101;
+        Fri, 05 Jul 2024 04:06:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1720177563; cv=none;
+        d=google.com; s=arc-20160816;
+        b=WJJiBZHzc99RtGL+JVXQIQMuwyEcy0DF2G/SrMmS+TVhQOg4blLQLDNOXCIV2RKo2X
+         Tr1cRSkJ4nkf8JSPsPGpcUfHCT09uLOpFbovVIfA7JP9KmKaLy534fzezNuxxMFFF2px
+         1gja5CYFG1t3kzJF0TL7XbwBN5Fql8xEoSzExY9kkKNGyslu1+7mpHXDCc4CW9dZKtBh
+         6lTRNI3pd03iN1L3vXTYTq3TsU48htntn0TZ06ipVX+wm1sPrQGZCa3UoDErP+cqb/+V
+         1ei8oGA9hSUb4CYxhKQLFZpvTAAvsTbUqV4OExbDWfOJggtDm1Sg06xQmSKGGr4wWW0a
+         ws3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:in-reply-to:references:message-id:date:subject:mime-version:from
+         :content-transfer-encoding:dkim-signature;
+        bh=RbmHVMluXq4ptAYYL7cdbgq902pkWahrlqa3E9TGpBE=;
+        fh=4sNHPNspKBXyM6eqmA2TZ4TYnIKPnGIB7fjgAxtMbV4=;
+        b=Bp/zzgFRFgcc0ra/LagwjQhP7EeznuuSJfBmJSivqfpuEAQXerVqLtm0gNwOVQn3v9
+         G0pG5kRo31bmfiQQtt8X3OqxrfUuPavLEMB6/wTK7M0+hvqhX3irkGg5BTHluJ9Rk4if
+         E9ewFkGx1FPPQxajeKwA1fM1mQG8FbMXEKHCwxyjAqqekkmOyoGgEHqYqszq33O3aOJ6
+         Id+KSoASu4BzjJ0NN7KBZ2gyRKQh3AqJExn0o/1GwjRU9Gtb4P7DGXHYwxZKTpeFwop/
+         Ib6ziSDD7UMIJA38//LKPkhyGtwYrsrsHhPfXMUI+hVtAZsk5tVC7zg/za4XCEi44ojG
+         6BXg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=cFWzcgHt;
+       spf=pass (google.com: domain of msbutler05@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=msbutler05@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Return-Path: <msbutler05@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id af79cd13be357-79d693075a9sor1145376485a.17.2024.07.05.04.06.02
+        for <goodbyemrevans@gmail.com>
+        (Google Transport Security);
+        Fri, 05 Jul 2024 04:06:03 -0700 (PDT)
+Received-SPF: pass (google.com: domain of msbutler05@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=cFWzcgHt;
+       spf=pass (google.com: domain of msbutler05@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=msbutler05@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720177561; x=1720782361; dara=google.com;
+        h=to:in-reply-to:references:message-id:date:subject:mime-version:from
+         :content-transfer-encoding:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RbmHVMluXq4ptAYYL7cdbgq902pkWahrlqa3E9TGpBE=;
+        b=cFWzcgHt/zUCY3FQGNReXtgdMY3hnvmKRsgb7GqgsDSDf2vi9L3mIfPxgIrw9Cz3TG
+         s0T2Dlzu504ttvK2Bx+lKntis0OK0vuQXYfPX8XRF1wWvNYfgkwIPvYseRvdha5z/SlS
+         7Kmr2UOBcUCHcXw7PmsFfye3qxcQPm/CStsJN8Ga03O1C//Vgn8+WHWRnbLtbGjofUCc
+         EJyv76F38n+HR3x/9ATX9GsYW7GcdNu588uRF7LmOJkDsfqK9SFf/FnSuEI4QutHfWVg
+         FgVLKmIzmNN86FJrzskvxGnaCIcbjq6TjvROAv4SX8BzDU2yUsEvkd2bD7yjMn0FGVas
+         ubWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720177561; x=1720782361;
+        h=to:in-reply-to:references:message-id:date:subject:mime-version:from
+         :content-transfer-encoding:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RbmHVMluXq4ptAYYL7cdbgq902pkWahrlqa3E9TGpBE=;
+        b=Nn79ts3X28OwzDIpdWRLo/MMhOHdgQuHua5JvC15OYHSNVU4cxRqmxS3dI3AIoz7Bw
+         n6fqbqeazuhQBX1INOWW1G+bv3Zk+4Q5XRt5jO/FXqBZqTsqcyiqRZbric9j/Q+ChjNE
+         SOW+nncqvLWeC5BesptZ2KMISaoq246gmEpOdlD1qBuwhQCwLB0ZAk/2dFyoTVG+m/4f
+         R2l+6XtbnIdvJWqXK+TaMhH+50oVZt6XibZOSrRLNsS7eAlMUVrMrwc2rLfru7u4kXia
+         ykeobrQpt+M8jiIc913U/61AoDwjY37na3ztKKejadVswKyE+eMyIotTd2duerBK0d3f
+         nGSg==
+X-Gm-Message-State: AOJu0Yyria6q9AFbYN06065SXmjxYYLZvBqxvs0V+5nIickdZSeHUhNp
+	mzXz2cxtmxLb8TEwWKPcIwQWUcB4Y4kPUIoyfVJRo3EeKF287oyHEU2qXA==
+X-Google-Smtp-Source: AGHT+IExmXnNYodzUHpnZs8eUZKTouII3NU+a/Zv/fASbNAvbcBYn9Ly+uLT8MMnGewDz0oxp55Crg==
+X-Received: by 2002:a05:620a:2059:b0:79d:5b21:8044 with SMTP id af79cd13be357-79eee19e9d0mr429102385a.11.1720177561286;
+        Fri, 05 Jul 2024 04:06:01 -0700 (PDT)
+Return-Path: <msbutler05@gmail.com>
+Received: from smtpclient.apple ([2601:18f:4101:d780:31af:e1f6:eb5d:c82d])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-79d69308d8esm764356485a.124.2024.07.05.04.06.00
+        for <goodbyemrevans@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Jul 2024 04:06:00 -0700 (PDT)
+Content-Type: multipart/alternative; boundary=Apple-Mail-09BBF3A7-C6F9-45F4-A5A2-81F3DE08B388
+Content-Transfer-Encoding: 7bit
+From: Michael Butler <msbutler05@gmail.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: deleted emails
+Date: Fri, 5 Jul 2024 07:05:49 -0400
+Message-Id: <62E664ED-F1AB-4A0C-AD40-5BFC3AE5B802@gmail.com>
+References: <CAGpM8aF7XcOrPvFEXEec-TgLqqLxkmVG1MUWgeHYghZpwLj4ww@mail.gmail.com>
+In-Reply-To: <CAGpM8aF7XcOrPvFEXEec-TgLqqLxkmVG1MUWgeHYghZpwLj4ww@mail.gmail.com>
+To: Jeff Jacobson <goodbyemrevans@gmail.com>
+X-Mailer: iPhone Mail (21F90)
+
+
+--Apple-Mail-09BBF3A7-C6F9-45F4-A5A2-81F3DE08B388
+Content-Type: text/html;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
+utf-8"></head><body dir=3D"auto"><div dir=3D"ltr"></div><div dir=3D"ltr">Tha=
+nk goodness! This is great news. Thank you for getting back to me so quickly=
+. Crisis averted, as they say.&nbsp;</div><div dir=3D"ltr"><br></div><div di=
+r=3D"ltr">Sounds like you have a more complete collection of our emails than=
+ I did, which is even better. I agree that emails before 2006 are probably v=
+ia your college email. Some of them from as early as 2006 on my end might st=
+ill be from my UMASS email. I=E2=80=99m sure those are lost, but that=E2=80=99=
+s OK. I had forgotten completely about gchats. It=E2=80=99s great that you h=
+ave emails.&nbsp;</div><div dir=3D"ltr"><br></div><div dir=3D"ltr">I did see=
+ that about the cave painting. Such an incredible human artifact, cave paint=
+ings. The incomprehensible age and remote location maximize the reverence on=
+e has, I can only imagine, and I bet when you behold the aesthetic expressio=
+n it=E2=80=99s a strong feeling of something like, wow! this is actually pre=
+tty good for being 53000 years old. Is that even right? It=E2=80=99s seems l=
+ike a mistake typing that number.&nbsp;</div><div dir=3D"ltr"><br></div><div=
+ dir=3D"ltr">There=E2=80=99s a comedian with a series of mockumentaries on N=
+etflix, Philomena Cunk.</div><div dir=3D"ltr">She=E2=80=99s British and iron=
+ically interviews intellectuals and experts about history and human civiliza=
+tion. Her shtick is that she=E2=80=99s generally bored and disinterested wit=
+h the most amazing ideas and achievements humanity has to offer. In one bit,=
+ she sits in a theater with a Shakespearean actor who starts to recite Hamle=
+t=E2=80=99s soliloquy, and after about 8 lines she starts eating a banana.&n=
+bsp;</div><div dir=3D"ltr"><br></div><div dir=3D"ltr">Well she goes to some c=
+ave paintings and seems mostly unimpressed. Some people see her shows, =E2=80=
+=9CCunk on Shakespeare=E2=80=9D, =E2=80=9CCunk on Britain=E2=80=9D, =E2=80=9C=
+Cunk on Earth=E2=80=9D, and actually think it=E2=80=99s like a straight ahea=
+d info show and write comments about how terrible she is. Completely over th=
+eir heads, but how is that even possible?&nbsp;</div><div dir=3D"ltr"><br></=
+div><div dir=3D"ltr">Just going there to witness these paintings without any=
+ guidance or authorization would be pretty badass, but much closer to the co=
+ntext of viewing the painting as it was created before any such groups or in=
+stitutions. Did the artist just make the painting for themself and their tri=
+be or did they think maybe other tribes would pass through and see. Maybe th=
+ose were just the practice ones for the show paintings done on some imperman=
+ent material. Funny how me accidentally deleting digital emails is like the o=
+pposite of a cave painting lasting forever.&nbsp;</div><div dir=3D"ltr"><br>=
+</div><div dir=3D"ltr">Thank you for your praise of the last poem</div><div d=
+ir=3D"ltr">I sent you. I had a lot of fun with that one.</div><div dir=3D"lt=
+r"><br></div><div dir=3D"ltr">See you soon. &nbsp;</div><div dir=3D"ltr"><br=
+></div><div dir=3D"ltr"><br></div><div dir=3D"ltr"><br><blockquote type=3D"c=
+ite">On Jul 5, 2024, at 12:51=E2=80=AFAM, Jeff Jacobson &lt;goodbyemrevans@g=
+mail.com&gt; wrote:<br><br></blockquote></div><blockquote type=3D"cite"><div=
+ dir=3D"ltr">=EF=BB=BF<div dir=3D"ltr">So just to set you (somewhat) at ease=
+, this email account is intact and I don't think I've ever gone through dele=
+ting things,&nbsp;certainly not from you. I just checked and it goes back to=
+ 2006. I think this is my first gmail account, or at least I don't remember h=
+aving another before it. That said after a glance at our earliest exchanges t=
+hey do seem to start in medias res,&nbsp;or maybe there's some missing ones,=
+ and of course some of them are gchats which are a pain. Like my&nbsp;very f=
+irst email here is&nbsp;emailing a friend about a Boris show in&nbsp;Boston i=
+n 2006. I don't remember it at all but that doesn't seem right?<div><br></di=
+v><div>I think it's possible that we emailed using my Colorado College email=
+ before I switched over to this one, and those would have to&nbsp;be conside=
+red lost. Or maybe we didn't email very much before then? I know we used to c=
+hat on AIM a lot.<br></div><div><br></div><div>Anyway 2006-present is still a=
+ lot of content, probably the vast majority of it. My reasoning being the ea=
+rliest we likely would've started sending emails would be when I went to col=
+lege in 03.</div><div><br></div><div>I have a friend who used to work at Goo=
+gle and will ask him if there's any possibility of recovering your emails an=
+d/or ways to analyze accounts so as to see if I'm missing anything for myste=
+rious reasons.</div><div><br></div><div>Funny coincidence, as I write this g=
+mail is&nbsp; nagging me with a popup, 92% of storage used, if I run out, I c=
+an't send emails. Maybe I should delete some to&nbsp;make room! just kidding=
+ lol</div><div><br></div><div>On a more serious note I should look into back=
+ing up all our emails given their newly&nbsp;emphasized tenuosity, that's de=
+finitely something I can figure out how to do.</div><div><br></div><div>Your=
+ latest poem is really good as in the best thing you've written that I've se=
+en and I've been meaning to write to you about it but I'll just say that for=
+ now.</div><div><br></div><div>We should definitely meet up during the time y=
+ou're back around, I'll talk to Lisa about maybe meeting here but then also w=
+e should play some music with Evan.</div><div><br></div><div>Did you see abo=
+ut the oldest confirmed cave art being in Indonesia, in Sulawesi in particul=
+ar,&nbsp;51000 BP? I don't know about this specific example but all the prev=
+ious really old cave paintings have been in the region of Maros, which is cl=
+ose to Makassar. If you go from Makassar to Toraja by car (as we used to oft=
+en do and likely will again unless taking the ferry from Balikpapan which de=
+posits you at Parepare, the entryway to the highlands), you pass right throu=
+gh Maros as in it's the very first region after Makassar itself. I've known a=
+bout these cave paintings for awhile and have often idly expressed to Lisa m=
+y desire at some point to check them out as I think it would be totally feas=
+ible to do so even without any government or academic authorization. But now=
+ I think the next time we are there I'll insist we take an extra day to go s=
+ee them.</div><div><br></div><div>ok talk soon</div><div><br></div></div><br=
+><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Ju=
+l 4, 2024 at 11:19=E2=80=AFPM Michael Butler &lt;<a href=3D"mailto:msbutler0=
+5@gmail.com">msbutler05@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">Jeff, I hope you are well. I am writing you fro=
+m Norfolk actually. Headed up to Maine tomorrow for a family vacation. I=E2=80=
+=99ll be in Norfolk again for a few days after our trip. That would be the 1=
+2th-15th or so. It=E2=80=99s a bit short notice but we=E2=80=99d love to say=
+ hi sometime then, either in Norwood or Norfolk. We will be back up in Massa=
+chusetts in August if we aren=E2=80=99t able to get together in July. <br>
+<br>
+I made possibly a terribly consequential mistake tonight that was careless a=
+nd avoidable. In clearing out my gmail inbox and then subsequently clearing o=
+ut the trash folder as I routinely do, I somehow accidentally cleared out my=
+ =E2=80=9Call mail=E2=80=9D folder, and then again from the trash folder. In=
+ doing so I accidentally deleted all our emails over the years, which I had i=
+ntended to someday archive more permanently, even to compile them all in one=
+ file. <br>
+<br>
+It would bring a great deal of relief even just to know whether you still ha=
+ve our emails archived. That is both emails sent from me to you, and more im=
+portantly, from you to me. I had considered our correspondence to be not jus=
+t a chronicle of our friendship, but indeed the most intact account of my li=
+fe. Needless to say I was distraught and embarrassed by my error. I=E2=80=99=
+d hate to think it was all lost. <br>
+<br>
+My hope is you have our correspondence, or some amount of it, and that it is=
+ not lost. If that=E2=80=99s the case, it would again bring great relief to k=
+now you still had them. If you do, then perhaps it would be possible at some=
+ future time of your convenience to forward them to me so I might finally go=
+ about preserving them more permanently - eventually in the form of physical=
+ copies for you and myself. <br>
+<br>
+My apologies for the somewhat random and jarring nature of this email. Hopef=
+ully I have not caused such a great loss. <br>
+<br>
+As I grappled with the possibility of such a consequential error, I attempte=
+d to console myself with ideas we=E2=80=99ve talked about and probably recor=
+ded well enough - the nature of impermanence, radical detachment and stoicis=
+m in the face of such events, but above all, the understanding that our frie=
+ndship, indeed our lives are much more than our emails and that the memories=
+ cannot be lost so easily. Apologies for the melodrama. Thanks in advance fo=
+r your reply and what matters most is that you and your family are happy and=
+ healthy. <br>
+<br>
+You=E2=80=99re the best, Jeff. Thank you for being such a great friend all t=
+hese years. </blockquote></div>
+</div></blockquote></body></html>=
+
+--Apple-Mail-09BBF3A7-C6F9-45F4-A5A2-81F3DE08B388--

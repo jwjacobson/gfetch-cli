@@ -28,44 +28,68 @@ from clean_emails import clean_email_file
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
-EMAIL_ADDRESS = ''
 RAW_EMAIL_DIR = 'raw_emails'
 CLEANED_EMAIL_DIR = 'cleaned_emails'
 
+def get_credentials():
+    """
+    Load or obtain new credentials for the Google API.
+    """
+    creds = None
+    if os.path.exists('token.json'):
+        try:
+            creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+        except Exception as e:
+            print(f'Error loading credentials: {e}')
+            creds = None
+
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            try:
+                creds.refresh(Request())
+            except Exception as e:
+                print(f'Error refreshing credentials: {e}')
+                creds = None
+
+        if not creds:
+            try:
+                flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+                creds = flow.run_local_server(port=0)
+                with open('token.json', 'w') as token:
+                    token.write(creds.to_json())
+            except Exception as e:
+                print(f'Error during OAuth flow: {e}')
+                return None
+
+    return creds
 
 def main(email_address):
     """
     Download all emails to or from EMAIL_ADDRESS. Save the raw .eml files to RAW_EMAIL_DIR and the the cleaned ones to CLEANED_EMAIL_DIR.
     """
     if not email_address:
-        # raise ValueError("Please set the value of EMAIL_ADDRESS in retrieve_emails.py.")
         email_address = input("Enter the gmail address whose correspondence you want to back up: ")
 
     if email_address.split('@')[1] != "gmail.com":
         raise ValueError("This script only works for gmail addresses.")
 
-    creds = None
+    creds = get_credentials()
 
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    if not creds:
+        print('Failed to obtain credentials.')
+        return
 
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
+    try:
+        service = build('gmail', 'v1', credentials=creds)
+    except Exception as e:
+        print(f'Error building Gmail service: {e}')
+        return
 
-        with open('token.json', 'w') as token:
-            token.write(creds.to_json())
-
-    service = build('gmail', 'v1', credentials=creds)
 
     if not os.path.exists(RAW_EMAIL_DIR):
         os.makedirs(RAW_EMAIL_DIR)
 
-    query = f"to:{EMAIL_ADDRESS} OR from:{EMAIL_ADDRESS}"
+    query = f"to:{email_address} OR from:{email_address}"
     next_page_token = None
 
     while True:
@@ -98,4 +122,5 @@ def main(email_address):
             break
 
 if __name__ == '__main__':
+    EMAIL_ADDRESS = input("Enter the gmail address whose correspondence you want to back up: ")
     main(EMAIL_ADDRESS)

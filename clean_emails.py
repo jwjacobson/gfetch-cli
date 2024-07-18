@@ -25,7 +25,7 @@ OUTPUT_DIR = 'cleaned_emails'
 
 def clean_email_file(email_file):
     """
-    Take an eml file and output a cleaned .txt.
+    Take an eml file and output a cleaned txt file.
     """
     with open(email_file, 'rb') as f:
         msg = BytesParser(policy=policy.default).parse(f)
@@ -52,7 +52,7 @@ def clean_email_file(email_file):
         body = msg.get_payload(decode=True).decode(charset, errors='replace')
 
     if not body:
-        body = "This email has no body. Maybe it was just an attachment?"
+        body = "This email has no text in the body. Maybe it was just an attachment?"
 
     body = body.split('\nOn ')[0]
 

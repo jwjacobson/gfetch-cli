@@ -3,3 +3,4 @@ __pycache__
 client_secret*
 credentials.json
 token.json
+sample_*

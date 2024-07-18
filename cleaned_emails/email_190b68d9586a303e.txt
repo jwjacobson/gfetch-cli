@@ -1,0 +1,6 @@
+DATE: Mon, 15 Jul 2024 09:20:50 -0400
+SUBJECT: opening the tar
+TO: michael butler <msbutler05@gmail.com>
+FROM: Jeff Jacobson <goodbyemrevans@gmail.com>
+
+you're gonna wanna use 7zip https://www.7-zip.org/
