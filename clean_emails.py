@@ -64,3 +64,7 @@ def clean_email_file(email_file):
     email_filename = os.path.join(OUTPUT_DIR, os.path.basename(email_file).replace('.eml', '.txt'))
     with open(email_filename, 'w', encoding='utf-8') as f:
         f.write(email_content)
+
+if __name__ == '__main__':
+    OUTPUT_DIR = '.'
+    clean_email_file('sample_raw.eml')

@@ -4,3 +4,6 @@ client_secret*
 credentials.json
 token.json
 sample_*
+raw_emails/
+cleaned_emails/
+
