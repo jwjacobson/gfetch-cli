@@ -1,3 +1,4 @@
+import pytest
 from unittest.mock import MagicMock, mock_open
 from google.oauth2.credentials import Credentials
 
@@ -14,3 +15,20 @@ def test_get_credentials_happy_path(mocker):
     creds = get_credentials()
     
     assert creds == mock_creds
+
+@pytest.mark.xfail(reason="Test not implemented")
+def test_get_credentials_no_token():
+    assert False
+
+@pytest.mark.xfail(reason="Test not implemented")
+def test_get_credentials_bad_token():
+    assert False
+
+@pytest.mark.xfail(reason="Test not implemented")
+def test_get_creds_expired():
+    assert False
+
+@pytest.mark.xfail(reason="Test not implemented")
+def test_get_creds_no_refresh():
+    assert False
+
