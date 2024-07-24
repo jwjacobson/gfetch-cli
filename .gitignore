@@ -6,4 +6,5 @@ token.json
 sample_*
 raw_emails/
 cleaned_emails/
+scratch*.py
 

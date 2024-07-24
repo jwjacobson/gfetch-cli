@@ -35,8 +35,14 @@ httplib2==0.22.0
     #   google-auth-httplib2
 idna==3.7
     # via requests
+iniconfig==2.0.0
+    # via pytest
 oauthlib==3.2.2
     # via requests-oauthlib
+packaging==24.1
+    # via pytest
+pluggy==1.5.0
+    # via pytest
 proto-plus==1.24.0
     # via google-api-core
 protobuf==5.27.2
@@ -52,6 +58,12 @@ pyasn1-modules==0.4.0
     # via google-auth
 pyparsing==3.1.2
     # via httplib2
+pytest==8.3.1
+    # via
+    #   -r requirements.in
+    #   pytest-mock
+pytest-mock==3.14.0
+    # via -r requirements.in
 requests==2.32.3
     # via
     #   google-api-core
