@@ -26,19 +26,23 @@ from googleapiclient.discovery import build
 
 from clean_emails import clean_email_file
 
-SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+from decouple import config
 
-RAW_EMAIL_DIR = 'raw_emails'
-CLEANED_EMAIL_DIR = 'cleaned_emails'
+
+SCOPES = config("SCOPES").split(',')
+RAW_EMAIL_DIR = config("RAW_EMAIL_DIR")
+CLEANED_EMAIL_DIR = config("CLEANED_EMAIL_DIR")
+TOKEN = config("TOKEN")
+CREDS = config("CREDS")
 
 def get_credentials():
     """
     Load or obtain new credentials for the Google API.
     """
     creds = None
-    if os.path.exists('token.json'):
+    if os.path.exists(TOKEN):
         try:
-            creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+            creds = Credentials.from_authorized_user_file(TOKEN, SCOPES)
         except Exception as e:
             print(f'Error loading credentials: {e}')
             creds = None
@@ -49,13 +53,12 @@ def get_credentials():
                 creds.refresh(Request())
             except Exception as e:
                 print(f'Error refreshing credentials: {e}')
-                creds = None
 
         if not creds:
             try:
-                flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+                flow = InstalledAppFlow.from_client_secrets_file(CREDS, SCOPES)
                 creds = flow.run_local_server(port=0)
-                with open('token.json', 'w') as token:
+                with open(TOKEN, 'w') as token:
                     token.write(creds.to_json())
             except Exception as e:
                 print(f'Error during OAuth flow: {e}')
