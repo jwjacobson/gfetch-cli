@@ -23,6 +23,7 @@ from email.parser import BytesParser
 from datetime import datetime
 
 OUTPUT_DIR = 'cleaned_emails'
+ATTACHMENTS_DIR = config("ATTACHMENTS_DIR")
 
 def clean_email_file(email_file):
     """
@@ -36,8 +37,19 @@ def clean_email_file(email_file):
     to = msg['To']
     from_ = msg['From']
 
-    date_obj = email.utils.parsedate_to_datetime(date)
-    formatted_date = date_obj.strftime("%Y-%m-%d")
+    if not os.path.exists(ATTACHMENTS_DIR):
+        os.makedirs(ATTACHMENTS_DIR)
+
+    if msg.is_multipart():
+        for part in msg.iter_parts():
+            if part.get_content_disposition() == "attachment":
+                has_attachment = True
+                filename = part.get_filename()
+                if filename:
+                    filepath = os.path.join(ATTACHMENTS_DIR, filename)
+                    with open(filepath, "wb") as attachment_file:
+                        attachment_file.write(part.get_payload(decode=True))
+                break
 
     if date:
         try:
