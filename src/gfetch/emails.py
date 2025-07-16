@@ -20,6 +20,7 @@ import email
 from pathlib import Path
 from email import policy
 from email.parser import BytesParser
+
 from googleapiclient.discovery import build
 
 from auth import get_credentials
@@ -219,12 +220,6 @@ def get_body(msg):
             break  
 
     return plain_text.split("\nOn ")[0] if plain_text else "This email has no text in the body."
-
-# def clean_body(body):
-#     """
-#     Clean the email body fetched by get_body.
-#     """
-#     return body.split("\nOn ")[0]
 
 
 def build_email_content(raw_file, date, subject, to, from_, attachments, body):

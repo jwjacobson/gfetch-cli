@@ -42,23 +42,12 @@ def create_dirs(config):
 dir_config = DirConfig()
 create_dirs(dir_config)
 
-# @app.route("/", methods=["GET", "POST"])
-# def index():
-#     if request.method == "POST":
-#         email_address = request.form["email_address"]
+def get_emails(email_address, dir_config=dir_config):
+    try:
+        fetch_emails(email_address, dir_config)
 
-#         result = fetch_emails(email_address, app.dir_config)
-
-#         if "error" in result:
-#             flash(result["error"])
-#             return redirect(url_for("index"))
-
-#         flash(f"Saved and cleaned {result['total_messages']} messages.")
-#         flash(f"Saved {result['total_attachments']} attachments.")
-
-#         return redirect(url_for("index"))
-
-#     return render_template("index.html")
+    except Exception as e:
+        print(f"Error getting emails: {e}")
 
 
 def delete_files():
@@ -103,23 +92,29 @@ def delete_files():
 
 def menu():
     while True:
-        print("\nChoose an option:")
-        print("1. Download emails")
-        print("2. Delete saved emails")
-        print("3. Quit")
+        print_menu()
         choice = int(input())
 
         while choice not in {1, 2, 3}:
             print("Choose 1, 2, or 3.")
             choice = int(input())
+        
         if choice == 1:
-            pass
+            email_address = input("\nDownload emails with which correspondent? ")
+            get_emails(email_address)
+
         elif choice == 2:
             print()
             delete_files()
+        
         else:
             break
 
+def print_menu():
+    print("\nChoose an option:")
+    print("1. Download emails")
+    print("2. Delete saved emails")
+    print("3. Quit")
 
 
 def main():
