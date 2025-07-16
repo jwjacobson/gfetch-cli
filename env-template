@@ -1,4 +1,3 @@
-SECRET_KEY=sosecret
 SCOPES=https://www.googleapis.com/auth/gmail.readonly
 RAW_EMAIL_DIR=./src/gfetch/raw_emails
 CLEAN_EMAIL_DIR=./src/gfetch/cleaned_emails
