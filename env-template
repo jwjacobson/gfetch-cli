@@ -1,6 +1,7 @@
 SCOPES=https://www.googleapis.com/auth/gmail.readonly
-RAW_EMAIL_DIR=./src/gfetch/raw_emails
-CLEAN_EMAIL_DIR=./src/gfetch/cleaned_emails
-ATTACHMENTS_DIR=./src/gfetch/cleaned_emails/attachments
-CREDS=./src/gfetch/credentials.json
-TOKEN=./src/gfetch/token.json
+BASE_DIR = src/gfetch
+RAW_EMAIL_DIR=raw_emails
+CLEAN_EMAIL_DIR=cleaned_emails
+ATTACHMENTS_DIR=cleaned_emails/attachments
+CREDS=credentials.json
+TOKEN=token.json
