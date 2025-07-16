@@ -50,10 +50,10 @@ def get_emails(email_address, config=dir_config):
         print(f"Error getting emails: {e}")
 
 
-def delete_files():
-    attachments_dir = dir_config.ATTACHMENTS_DIR
-    clean_dir = dir_config.CLEAN_EMAIL_DIR
-    raw_dir = dir_config.RAW_EMAIL_DIR
+def delete_files(config=dir_config):
+    attachments_dir = config.ATTACHMENTS_DIR
+    clean_dir = config.CLEAN_EMAIL_DIR
+    raw_dir = config.RAW_EMAIL_DIR
 
     attachments = list(attachments_dir.iterdir()) if attachments_dir.exists() else []
     clean_emails = [email for email in clean_dir.iterdir() if email.suffix == ".txt"] if clean_dir.exists() else []
@@ -120,6 +120,7 @@ def print_menu():
 def main():
     print("Welcome to Gfetch-cli!")
     menu()
+    return
 
 if __name__ == "__main__":
     main()
