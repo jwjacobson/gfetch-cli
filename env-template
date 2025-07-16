@@ -1,7 +1,7 @@
 SECRET_KEY=sosecret
 SCOPES=https://www.googleapis.com/auth/gmail.readonly
-RAW_EMAIL_DIR=./src/app/raw_emails
-CLEAN_EMAIL_DIR=./src/app/cleaned_emails
-ATTACHMENTS_DIR=./src/app/cleaned_emails/attachments
-CREDS=./src/app/credentials.json
-TOKEN=./src/app/token.json
+RAW_EMAIL_DIR=./src/gfetch/raw_emails
+CLEAN_EMAIL_DIR=./src/gfetch/cleaned_emails
+ATTACHMENTS_DIR=./src/gfetch/cleaned_emails/attachments
+CREDS=./src/gfetch/credentials.json
+TOKEN=./src/gfetch/token.json
