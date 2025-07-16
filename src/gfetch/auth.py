@@ -6,8 +6,9 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 SCOPES = config("SCOPES")
-CREDS = Path(config("CREDS"))
-TOKEN = Path(config("TOKEN"))
+BASE_DIR = Path(config("BASE_DIR"))
+CREDS = BASE_DIR / config("CREDS")
+TOKEN = BASE_DIR / config("TOKEN")
 
 
 def get_credentials():

@@ -30,7 +30,7 @@ def fetch_emails(email_address, config):
     """
     Fetch all emails from a given email address.
     """
-    raw_dir = Path(config.RAW_EMAIL_DIR)
+    raw_dir = config.RAW_EMAIL_DIR
     creds = get_credentials()
 
     if not creds:
@@ -100,8 +100,8 @@ def clean_email(email_file, config, message_id):
     email_path = Path(email_file)
     raw_file = email_path.name
     print(f"Cleaning {raw_file}.")
-    clean_dir = Path(config.CLEAN_EMAIL_DIR)
-    attachments_dir = Path(config.ATTACHMENTS_DIR)
+    clean_dir = config.CLEAN_EMAIL_DIR
+    attachments_dir = config.ATTACHMENTS_DIR
 
     with open(email_path, "rb") as f:
         msg = BytesParser(policy=policy.default).parse(f)

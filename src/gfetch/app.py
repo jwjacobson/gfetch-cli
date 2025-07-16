@@ -27,10 +27,10 @@ class DirConfig:
     """
     Store dir configuration in a class to allow easy access by emails.py
     """
-
-    RAW_EMAIL_DIR = Path(config("RAW_EMAIL_DIR"))
-    CLEAN_EMAIL_DIR = Path(config("CLEAN_EMAIL_DIR"))
-    ATTACHMENTS_DIR = Path(config("ATTACHMENTS_DIR"))
+    BASE_DIR = Path(config("BASE_DIR"))
+    RAW_EMAIL_DIR = BASE_DIR / config("RAW_EMAIL_DIR")
+    CLEAN_EMAIL_DIR = BASE_DIR / config("CLEAN_EMAIL_DIR")
+    ATTACHMENTS_DIR = BASE_DIR / config("ATTACHMENTS_DIR")
 
 
 def create_dirs(config):
@@ -42,9 +42,9 @@ def create_dirs(config):
 dir_config = DirConfig()
 create_dirs(dir_config)
 
-def get_emails(email_address, dir_config=dir_config):
+def get_emails(email_address, config=dir_config):
     try:
-        fetch_emails(email_address, dir_config)
+        fetch_emails(email_address, config)
 
     except Exception as e:
         print(f"Error getting emails: {e}")
