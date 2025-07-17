@@ -284,45 +284,35 @@ def test_build_email_content_no_subject(no_subject, temp_dirs):
     assert result == expected
 
 
-def test_clean_email_no_attachments(monkeypatch, no_attachments, temp_dirs):
-    attachments_dir = temp_dirs["attachments_dir"]
-    clean_dir = temp_dirs["clean_email_dir"]
-
-    # monkeypatch.setattr(dir_config, "ATTACHMENTS_DIR", attachments_dir)
-    # monkeypatch.setattr(dir_config, "CLEAN_EMAIL_DIR", clean_dir)
+def test_clean_email_no_attachments(no_attachments, fake_dir_config):
     filepath = no_attachments[2]
     message_id = no_attachments[3]
     expected_filename = '2013-07-05__re__test_id_01.txt'
     
-    clean_path = Path(clean_dir)
+    clean_path = fake_dir_config.CLEAN_EMAIL_DIR
     assert not list(clean_path.iterdir())  # Make sure the target directory is empty for comparison
     
-    clean_email(filepath, config, message_id)
+    clean_email(filepath, fake_dir_config, message_id)
 
     dir_files = [f.name for f in clean_path.iterdir()]
     assert len(dir_files) == 1
     assert expected_filename in dir_files
-    assert not list(Path(attachments_dir).iterdir())
+    assert not list(fake_dir_config.ATTACHMENTS_DIR.iterdir())
 
 
-def test_clean_email_one_attachment(monkeypatch, one_attachment, temp_dirs):
-    attachments_dir = temp_dirs["attachments_dir"]
-    clean_dir = temp_dirs["clean_email_dir"]
-
-    monkeypatch.setattr(app.dir_config, "ATTACHMENTS_DIR", attachments_dir)
-    monkeypatch.setattr(app.dir_config, "CLEAN_EMAIL_DIR", clean_dir)
+def test_clean_email_one_attachment(one_attachment, fake_dir_config):
     filepath = one_attachment[2]
     message_id = one_attachment[3]
     expected_email_filename = '2011-07-10__beautifulandstunning__test_id_10.txt'
     expected_attachment_filename = '2011-07-10__test_id_10__beautifulandstunning.png'
     
-    clean_path = Path(clean_dir)
-    attachments_path = Path(attachments_dir)
+    clean_path = fake_dir_config.CLEAN_EMAIL_DIR
+    attachments_path = fake_dir_config.ATTACHMENTS_DIR
     
     assert not list(clean_path.iterdir())  # Make sure the target directories are empty for comparison
     assert not list(attachments_path.iterdir())
 
-    clean_email(filepath, app.dir_config, message_id)
+    clean_email(filepath, fake_dir_config, message_id)
 
     clean_files = [f.name for f in clean_path.iterdir()]
     attachment_files = [f.name for f in attachments_path.iterdir()]
@@ -333,12 +323,7 @@ def test_clean_email_one_attachment(monkeypatch, one_attachment, temp_dirs):
     assert expected_attachment_filename in attachment_files
 
 
-def test_clean_email_many_attachments(monkeypatch, many_attachments, temp_dirs):
-    attachments_dir = temp_dirs["attachments_dir"]
-    clean_dir = temp_dirs["clean_email_dir"]
-
-    monkeypatch.setattr(app.dir_config, "ATTACHMENTS_DIR", attachments_dir)
-    monkeypatch.setattr(app.dir_config, "CLEAN_EMAIL_DIR", clean_dir)
+def test_clean_email_many_attachments(many_attachments, fake_dir_config):
     filepath = many_attachments[2]
     message_id = many_attachments[3]
     expected_email_filename = '2015-06-19__revisions__test_id_11.txt'
@@ -351,13 +336,13 @@ def test_clean_email_many_attachments(monkeypatch, many_attachments, temp_dirs):
         "2015-06-19__test_id_11__TRESSPASSING AT THE PUMPING STATION.pdf",
     ]
 
-    clean_path = Path(clean_dir)
-    attachments_path = Path(attachments_dir)
-    
+    clean_path = fake_dir_config.CLEAN_EMAIL_DIR
+    attachments_path = fake_dir_config.ATTACHMENTS_DIR
+
     assert not list(clean_path.iterdir())  # Make sure the target directories are empty for comparison
     assert not list(attachments_path.iterdir())
 
-    clean_email(filepath, app.dir_config, message_id)
+    clean_email(filepath, fake_dir_config, message_id)
 
     clean_files = [f.name for f in clean_path.iterdir()]
     attachment_files = [f.name for f in attachments_path.iterdir()]
