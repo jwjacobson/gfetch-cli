@@ -8,3 +8,5 @@ raw_emails/
 cleaned_emails/
 scratch*.py
 .env
+.coverage
+htmlcov
