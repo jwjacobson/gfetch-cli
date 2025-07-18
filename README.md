@@ -21,8 +21,20 @@ uv sync
 ```
 Create a `.env` file from the provided template:
 ```bash
-cp env-tempate .env
+cp env-template .env
 ```
+If you use the default values from env-template, the project layout will be as follows:
+```
+src
+└── gfetch
+    ├── cleaned_emails
+    │   └── attachments
+    ├── raw_emails
+    ├── credentials.json
+    └── token.json
+    (.py files omitted for clarity)
+```
+Note that you have to manually download `credentials.json` (see "Setting up Google Cloud" below); `token.json` will be generated automatically when you authenticate with the app.
 
 ## Setting up Google Cloud
 1. Go the the [Google Cloud Console](https://console.cloud.google.com/welcome/) and create an account if you don't have one
@@ -30,7 +42,7 @@ cp env-tempate .env
 3. Search ```gmail``` in the box and find the Gmail API, then enable it
 4. In the ```APIs & Services``` menu, click ```Credentials```, then click ```Create Credentials```, then ```OAuth Client ID```
 5. Follow the prompts to generate credentials
-6. Once you've created the credentials, you should see them on the main credentials page. Download the credentials JSON and save it to the location specified in the value of CREDENTIALS in your `.env` file
+6. Once you've created the credentials, you should see them on the main credentials page. Download the credentials JSON and save it as `credentials.json` in `src/gfetch/`
 
 ## Running gfetch
 ```bash
@@ -40,6 +52,7 @@ Or, if you have [Just](https://github.com/casey/just) installed:
 ```bash
 just run
 ```
+If you don't have a valid token, your default browser will open for you to authenticate with the account of your choice when you enter a correspondent's email. You will also have to grant access to Gfetch in order to download your emails. I promise I'm not doing anything with them! (terms of service to be published soon)
 
 ### License
 Gfetch is [free software](https://www.fsf.org/about/what-is-free-software), released under version 3.0 of the GPL. Everyone has the right to use, modify, and distribute gfetch subject to the [stipulations](https://github.com/jwjacobson/gfetch-cli/blob/main/LICENSE) of that license.
