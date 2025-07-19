@@ -1,4 +1,4 @@
-from app import create_dirs
+from app import create_dirs, delete_files
 
 
 def test_create_dirs_dont_exist(fake_dir_config_paths_only):
@@ -46,3 +46,22 @@ def test_create_dirs_already_exist(fake_dir_config):
     assert not any(raw_path.iterdir())
     assert not any(clean_path.iterdir())
     assert not any(attachments_path.iterdir())
+
+def test_delete_files_all(fake_dir_config, temp_files_all, capsys):
+    raw_path = fake_dir_config.RAW_EMAIL_DIR
+    clean_path = fake_dir_config.CLEAN_EMAIL_DIR
+    attachments_path=fake_dir_config.ATTACHMENTS_DIR
+    expected_output = 'Deleted 2 emails and 2 attachments.'
+
+    assert any(raw_path.iterdir())
+    assert any(clean_path.iterdir())
+    assert any(attachments_path.iterdir())
+
+    delete_files(fake_dir_config)
+
+    assert not any(raw_path.iterdir())
+    assert not any(clean_path.iterdir())
+    assert not any(attachments_path.iterdir())
+
+    output = capsys.readouterr().out.rstrip()
+    assert output == expected_output

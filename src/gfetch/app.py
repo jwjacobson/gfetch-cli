@@ -118,9 +118,8 @@ def print_menu():
 
 
 def main():
-    print("Welcome to Gfetch-cli!")
+    print("Welcome to Gfetch!")
     menu()
-    return
 
 if __name__ == "__main__":
     main()
