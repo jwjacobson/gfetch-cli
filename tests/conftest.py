@@ -3,19 +3,27 @@ import pytest
 
 
 @pytest.fixture(scope="function")
-def temp_dirs(tmp_path_factory):
+def temp_dir_paths(tmp_path):
     """
-    Create temporary directories to delete files from.
+    Create temporary directory paths.
     """
-    attachments_dir = tmp_path_factory.mktemp("attachments")
-    clean_email_dir = tmp_path_factory.mktemp("clean_emails")
-    raw_email_dir = tmp_path_factory.mktemp("raw_emails")
 
     return {
-        "attachments_dir": attachments_dir,
-        "clean_email_dir": clean_email_dir,
-        "raw_email_dir": raw_email_dir,
+        "attachments_dir": tmp_path / "attachments",
+        "clean_email_dir": tmp_path / "clean_emails",
+        "raw_email_dir": tmp_path / "raw_emails",
     }
+
+@pytest.fixture(scope="function")
+def temp_dirs(temp_dir_paths):
+    """
+    Create temporary directories.
+    """
+
+    for path in temp_dir_paths.values():
+        path.mkdir()
+    
+    return temp_dir_paths
 
 
 @pytest.fixture
@@ -123,3 +131,7 @@ class FakeDirConfig:
 @pytest.fixture()
 def fake_dir_config(temp_dirs):
     return FakeDirConfig(temp_dirs)
+
+@pytest.fixture()
+def fake_dir_config_paths_only(temp_dir_paths):
+    return FakeDirConfig(temp_dir_paths)
