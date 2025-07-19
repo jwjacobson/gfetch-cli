@@ -37,7 +37,7 @@ src
 Note that you have to manually download `credentials.json` (see "Setting up Google Cloud" below); `token.json` will be generated automatically when you authenticate with the app.
 
 ## Setting up Google Cloud
-1. Go the the [Google Cloud Console](https://console.cloud.google.com/welcome/) and create an account if you don't have one
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/welcome/) and create an account if you don't have one
 2. Using the navigation menu in the top-left of the screen, go to ```APIs & Services```, then ```Enable APIs and Services```
 3. Search ```gmail``` in the box and find the Gmail API, then enable it
 4. In the ```APIs & Services``` menu, click ```Credentials```, then click ```Create Credentials```, then ```OAuth Client ID```
