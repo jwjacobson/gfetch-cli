@@ -14,8 +14,6 @@ from emails import (
 )
 
 
-
-
 @pytest.fixture()
 def no_attachments():
     """
