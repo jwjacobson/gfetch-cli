@@ -108,3 +108,18 @@ def temp_files_only_raw(temp_dirs):
     (temp_dirs["raw_email_dir"] / "email2.eml").touch()
 
     return temp_dirs
+
+class FakeDirConfig:
+    """
+    A DirConfig that points to the temporary test directories.
+    """
+    def __init__(self, temp_dirs):
+        self.BASE_DIR = temp_dirs["raw_email_dir"].parent
+        self.RAW_EMAIL_DIR = temp_dirs["raw_email_dir"]
+        self.CLEAN_EMAIL_DIR = temp_dirs["clean_email_dir"]
+        self.ATTACHMENTS_DIR = temp_dirs["attachments_dir"]
+
+
+@pytest.fixture()
+def fake_dir_config(temp_dirs):
+    return FakeDirConfig(temp_dirs)
