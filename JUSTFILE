@@ -7,5 +7,5 @@ run:
     uv run src/gfetch/app.py
 
 # Run tests
-test:
-    uv run pytest
+test *args:
+    uv run pytest {{ args }}
