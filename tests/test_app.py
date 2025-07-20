@@ -87,3 +87,24 @@ def test_delete_files_no_attachments(fake_dir_config, temp_files_no_attachments,
     assert output[0] == expected_status
     assert output[1] == expected_output
 
+
+def test_delete_files_no_clean(fake_dir_config, temp_files_no_clean, capsys):
+    raw_path = fake_dir_config.RAW_EMAIL_DIR
+    clean_path = fake_dir_config.CLEAN_EMAIL_DIR
+    attachments_path=fake_dir_config.ATTACHMENTS_DIR
+    expected_status = 'No cleaned emails found.'
+    expected_output = 'Deleted 2 attachments.'
+
+    assert any(raw_path.iterdir())
+    assert not any(clean_path.iterdir())
+    assert any(attachments_path.iterdir())
+
+    delete_files(fake_dir_config)
+
+    assert not any(raw_path.iterdir())
+    assert not any(clean_path.iterdir())
+    assert not any(attachments_path.iterdir())
+
+    output = capsys.readouterr().out.rstrip().split('\n')
+    assert output[0] == expected_status
+    assert output[1] == expected_output
