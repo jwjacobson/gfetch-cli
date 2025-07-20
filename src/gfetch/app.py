@@ -92,7 +92,7 @@ def delete_files(config=dir_config):
         print("Only raw emails found and deleted.")
 
 
-def menu():
+def menu():     # pragma: no cover
     while True:
         print_menu()
         choice = int(input())
@@ -112,16 +112,16 @@ def menu():
         else:
             break
 
-def print_menu():
+def print_menu():   # pragma: no cover
     print("\nChoose an option:")
     print("1. Download emails")
     print("2. Delete saved emails")
     print("3. Quit")
 
 
-def main():
+def main():   # pragma: no cover
     print("Welcome to Gfetch!")
     menu()
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()
