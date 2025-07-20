@@ -88,6 +88,8 @@ def delete_files(config=dir_config):
         print(f"Deleted {deleted_emails} emails.")
     elif deleted_attachments:
         print(f"Deleted {deleted_attachments} attachments.")
+    else:
+        print("Only raw emails found and deleted.")
 
 
 def menu():
