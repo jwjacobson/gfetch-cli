@@ -130,3 +130,27 @@ def test_delete_files_no_raw(fake_dir_config, temp_files_no_raw, capsys):
     output = capsys.readouterr().out.rstrip().split('\n')
     assert output[0] == expected_status
     assert output[1] == expected_output
+
+
+def test_delete_files_only_attachments(fake_dir_config, temp_files_only_attachments, capsys):
+    raw_path = fake_dir_config.RAW_EMAIL_DIR
+    clean_path = fake_dir_config.CLEAN_EMAIL_DIR
+    attachments_path=fake_dir_config.ATTACHMENTS_DIR
+    expected_status_1 = 'No raw emails found.'
+    expected_status_2 = 'No cleaned emails found.'
+    expected_output = 'Deleted 2 attachments.'
+
+    assert not any(raw_path.iterdir())
+    assert not any(clean_path.iterdir())
+    assert any(attachments_path.iterdir())
+
+    delete_files(fake_dir_config)
+
+    assert not any(raw_path.iterdir())
+    assert not any(clean_path.iterdir())
+    assert not any(attachments_path.iterdir())
+
+    output = capsys.readouterr().out.rstrip().split('\n')
+    assert expected_status_1 in output
+    assert expected_status_2 in output
+    assert output[2] == expected_output
