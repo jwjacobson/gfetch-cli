@@ -33,3 +33,25 @@ def test_get_credentials_no_token(mock_flow, mock_exists):
     mock_flow.assert_called_once()
     mock_flow_instance.run_local_server.assert_called_once_with(port=0)
     assert result == mock_new_creds
+
+
+@patch('pathlib.Path.exists')
+@patch('auth.Credentials.from_authorized_user_file')
+@patch('auth.Request')
+def test_get_credentials_expired(mock_request, mock_from_file, mock_exists):
+    mock_exists.return_value = True
+    mock_creds = Mock()
+    mock_creds.valid = False
+    mock_creds.expired = True
+    mock_creds.refresh_token = "some_refresh_token"
+    mock_from_file.return_value = mock_creds
+    
+    def refresh_side_effect(request):
+        mock_creds.valid = True
+    mock_creds.refresh.side_effect = refresh_side_effect
+
+    result = get_credentials()
+    
+    mock_from_file.assert_called_once()
+    mock_creds.refresh.assert_called_once()
+    assert result == mock_creds
