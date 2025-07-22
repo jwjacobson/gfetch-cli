@@ -81,6 +81,9 @@ def fetch_emails(email_address, config):
     return {"total_messages": total_messages, "total_attachments": total_attachments}
 
 def get_results(service, query, next_page_token=None):
+    """
+    Get a list of messages and a next_page_token for a given query.
+    """
     if next_page_token:
             results = (
                 service.users()
