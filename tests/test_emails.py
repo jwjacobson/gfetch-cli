@@ -1,12 +1,15 @@
 import pytest
 from pathlib import Path
+from unittest.mock import Mock, patch
 
 from email import policy
 from email.parser import BytesParser
 
+
 from emails import (
     build_email_content,
     clean_email,
+    fetch_emails,
     format_subject,
     get_attachments,
     get_body,
@@ -337,3 +340,13 @@ def test_clean_email_many_attachments(many_attachments, fake_dir_config):
     assert expected_email_filename in clean_files
     for filename in expected_attachment_filenames:
         assert filename in attachment_files
+
+
+@patch('emails.get_credentials')
+def test_fetch_emails_no_credentials(mock_get_creds):
+    mock_get_creds.return_value = None
+    mock_config = Mock()
+    
+    result = fetch_emails("test@example.com", mock_config)
+    
+    assert result == {"error": "Failed to obtain credentials."}
