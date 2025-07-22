@@ -44,23 +44,11 @@ def fetch_emails(email_address, config):
         return {"error": f"Error building Gmail service: {e}"}
 
     query = f"to:{email_address} OR from:{email_address}"
-    next_page_token = None
     total_messages = 0
     total_attachments = 0
 
     while True:
-        if next_page_token:
-            results = (
-                service.users()
-                .messages()
-                .list(userId="me", q=query, pageToken=next_page_token)
-                .execute()
-            )
-        else:
-            results = service.users().messages().list(userId="me", q=query).execute()
-
-        messages = results.get("messages", [])
-        next_page_token = results.get("nextPageToken", None)
+        messages, next_page_token = get_results(service, query)
 
         if not messages:
             print("No messages remain.")
@@ -92,6 +80,21 @@ def fetch_emails(email_address, config):
     print(f"Retrieved {total_messages} messages and {total_attachments} attachments.")
     return {"total_messages": total_messages, "total_attachments": total_attachments}
 
+def get_results(service, query, next_page_token=None):
+    if next_page_token:
+            results = (
+                service.users()
+                .messages()
+                .list(userId="me", q=query, pageToken=next_page_token)
+                .execute()
+            )
+    else:
+        results = service.users().messages().list(userId="me", q=query).execute()
+
+    messages = results.get("messages", [])
+    next_page_token = results.get("nextPageToken", None)
+
+    return messages, next_page_token
 
 def clean_email(email_file, config, message_id):
     """
