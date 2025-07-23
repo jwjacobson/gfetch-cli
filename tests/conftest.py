@@ -1,7 +1,6 @@
 import pytest
 
 
-
 @pytest.fixture(scope="function")
 def temp_dir_paths(tmp_path):
     """
@@ -14,6 +13,7 @@ def temp_dir_paths(tmp_path):
         "raw_email_dir": tmp_path / "raw_emails",
     }
 
+
 @pytest.fixture(scope="function")
 def temp_dirs(temp_dir_paths):
     """
@@ -22,7 +22,7 @@ def temp_dirs(temp_dir_paths):
 
     for path in temp_dir_paths.values():
         path.mkdir()
-    
+
     return temp_dir_paths
 
 
@@ -117,10 +117,12 @@ def temp_files_only_raw(temp_dirs):
 
     return temp_dirs
 
+
 class FakeDirConfig:
     """
     A DirConfig that points to the temporary test directories.
     """
+
     def __init__(self, temp_dirs):
         self.BASE_DIR = temp_dirs["raw_email_dir"].parent
         self.RAW_EMAIL_DIR = temp_dirs["raw_email_dir"]
@@ -131,6 +133,7 @@ class FakeDirConfig:
 @pytest.fixture()
 def fake_dir_config(temp_dirs):
     return FakeDirConfig(temp_dirs)
+
 
 @pytest.fixture()
 def fake_dir_config_paths_only(temp_dir_paths):
