@@ -506,12 +506,23 @@ def test_process_message_batch_many_messages(fake_dir_config):
     assert result == 5
 
 
-@patch('emails.get_credentials')
-def test_fetch_emails_no_credentials(mock_get_creds):
-    mock_get_creds.return_value = None
+@patch('emails.get_credentials', return_value=None)
+def test_fetch_emails_no_credentials(mock_get_credentials):
     mock_config = Mock()
     
-    result = fetch_emails("test@example.com", mock_config)
+    result = fetch_emails("queequeg@pequod.com", mock_config)
     
     assert result == {"error": "Failed to obtain credentials."}
+
+
+@patch('emails.get_credentials', return_value="valid_creds")
+@patch('emails.build', side_effect=Exception("Service build failed"))
+def test_fetch_emails_no_service(mock_build, mock_get_credentials):
+    mock_config = Mock()
+ 
+    result = fetch_emails("queequeg@pequod.com", mock_config)
+    
+    mock_get_credentials.assert_called_once()
+    mock_build.assert_called_once_with("gmail", "v1", credentials="valid_creds")
+    assert result == {"error": "Error building Gmail service: Service build failed"}
 
