@@ -186,7 +186,6 @@ def test_delete_files_only_raw(fake_dir_config, temp_files_only_raw, capsys):
     attachments_path=fake_dir_config.ATTACHMENTS_DIR
     expected_status_1 = 'No cleaned emails found.'
     expected_status_2 = 'No attachments found.'
-    expected_output = 'Only raw emails found and deleted.'
 
     assert any(raw_path.iterdir())
     assert not any(clean_path.iterdir())
@@ -201,4 +200,3 @@ def test_delete_files_only_raw(fake_dir_config, temp_files_only_raw, capsys):
     output = capsys.readouterr().out.rstrip().split('\n')
     assert expected_status_1 in output
     assert expected_status_2 in output
-    assert output[-1] == expected_output

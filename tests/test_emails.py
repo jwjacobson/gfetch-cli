@@ -14,6 +14,7 @@ from emails import (
     get_attachments,
     get_messages_and_next_page,
     get_body,
+    process_message_batch,
     set_date,
 )
 
@@ -343,15 +344,6 @@ def test_clean_email_many_attachments(many_attachments, fake_dir_config):
         assert filename in attachment_files
 
 
-@patch('emails.get_credentials')
-def test_fetch_emails_no_credentials(mock_get_creds):
-    mock_get_creds.return_value = None
-    mock_config = Mock()
-    
-    result = fetch_emails("test@example.com", mock_config)
-    
-    assert result == {"error": "Failed to obtain credentials."}
-
 
 def test_get_messages_and_next_page_no_token():
     mock_service = Mock()
@@ -454,3 +446,22 @@ def test_get_messages_and_next_page_many_messages():
     assert next_token == "Token"
     assert messages[0]["id"] == "msg_0"
     assert messages[-1]["id"] == "msg_99"
+
+
+def test_process_message_batch_no_messages(fake_dir_config):
+    mock_service = Mock()
+    messages = []
+
+    result = process_message_batch(fake_dir_config, mock_service, messages)
+
+    assert result == 0
+
+@patch('emails.get_credentials')
+def test_fetch_emails_no_credentials(mock_get_creds):
+    mock_get_creds.return_value = None
+    mock_config = Mock()
+    
+    result = fetch_emails("test@example.com", mock_config)
+    
+    assert result == {"error": "Failed to obtain credentials."}
+
