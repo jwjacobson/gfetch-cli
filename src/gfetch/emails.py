@@ -48,7 +48,7 @@ def fetch_emails(email_address, config):
     total_attachments = 0
 
     while True:
-        messages, next_page_token = get_results(service, query)
+        messages, next_page_token = get_messages_and_next_page(service, query)
 
         if not messages:
             print("No messages remain.")
@@ -80,7 +80,7 @@ def fetch_emails(email_address, config):
     print(f"Retrieved {total_messages} messages and {total_attachments} attachments.")
     return {"total_messages": total_messages, "total_attachments": total_attachments}
 
-def get_results(service, query, next_page_token=None):
+def get_messages_and_next_page(service, query, next_page_token=None):
     """
     Get a list of messages and a next_page_token for a given query.
     """
@@ -95,7 +95,7 @@ def get_results(service, query, next_page_token=None):
         results = service.users().messages().list(userId="me", q=query).execute()
 
     messages = results.get("messages", [])
-    next_page_token = results.get("nextPageToken", None)
+    next_page_token = results.get("nextPageToken")
 
     return messages, next_page_token
 
