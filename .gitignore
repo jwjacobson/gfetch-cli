@@ -10,3 +10,5 @@ scratch*.py
 .env
 .coverage
 htmlcov
+pypi_*
+*.egg-info

@@ -3,7 +3,11 @@ name = "gfetch-cli"
 version = "0.1.0"
 description = "A CLI app to back up your gmail emails locally"
 readme = "README.md"
+license = {file = "LICENSE"}
 requires-python = ">=3.13"
+authors = [
+  { name="Jeff Jacobson", email="jeffjacobsonhimself@gmail.com" },
+]
 dependencies = [
     "google-api-python-client>=2.176.0",
     "google-auth>=2.40.3",
@@ -19,3 +23,27 @@ dev = [
     "pytest-mock>=3.14.1",
     "python-decouple>=3.8",
 ]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Communications :: Email",
+    "Topic :: Internet",
+    "Topic :: System :: Archiving :: Backup",
+    "Topic :: Text Processing"
+]
+
+[project.urls]
+Homepage = "https://github.com/jwjacobson/gfetch-cli"
+Issues = "https://github.com/jwjacobson/gfetch-cli/issues"
+
+[project.scripts]
+gfetch-cli = "gfetch_cli.app:main"
