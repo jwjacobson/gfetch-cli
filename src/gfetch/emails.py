@@ -48,16 +48,18 @@ def fetch_emails(email_address, config):
     next_page_token = None
 
     while True:
-        messages, next_page_token = get_messages_and_next_page(service, query, next_page_token)
+        messages, next_page_token = get_messages_and_next_page(
+            service, query, next_page_token
+        )
 
         if not messages:
             print("No messages remain.")
             break
-    
+
         batch_attachments = process_message_batch(config, service, messages)
         total_messages += len(messages)
         total_attachments += batch_attachments
-    
+
         if not next_page_token:
             break
 
@@ -65,17 +67,18 @@ def fetch_emails(email_address, config):
     print(f"Retrieved {total_messages} messages and {total_attachments} attachments.")
     return {"total_messages": total_messages, "total_attachments": total_attachments}
 
+
 def get_messages_and_next_page(service, query, next_page_token=None):
     """
     Get a list of messages and a next_page_token for a given query.
     """
     if next_page_token:
-            results = (
-                service.users()
-                .messages()
-                .list(userId="me", q=query, pageToken=next_page_token)
-                .execute()
-            )
+        results = (
+            service.users()
+            .messages()
+            .list(userId="me", q=query, pageToken=next_page_token)
+            .execute()
+        )
     else:
         results = service.users().messages().list(userId="me", q=query).execute()
 
@@ -84,15 +87,16 @@ def get_messages_and_next_page(service, query, next_page_token=None):
 
     return messages, next_page_token
 
+
 def process_message_batch(config, service, messages):
     """
     Process a batch of messages and return the attachment count.
     """
     raw_dir = config.RAW_EMAIL_DIR
     batch_attachments = 0
-    
+
     for message in messages:
-        message_id = message["id"] 
+        message_id = message["id"]
         msg = (
             service.users()
             .messages()
@@ -100,13 +104,13 @@ def process_message_batch(config, service, messages):
             .execute()
         )
         msg_str = base64.urlsafe_b64decode(msg["raw"].encode("ASCII"))
-        raw_email_path = raw_dir / f'email_{message["id"]}.eml'
-        print(f'\nRetrieving message {raw_email_path.name}.')
+        raw_email_path = raw_dir / f"email_{message['id']}.eml"
+        print(f"\nRetrieving message {raw_email_path.name}.")
         with open(raw_email_path, "wb") as f:
             f.write(msg_str)
         attachments = clean_email(raw_email_path, config, message_id)
         batch_attachments += attachments or 0
-    
+
     return batch_attachments
 
 
@@ -208,15 +212,16 @@ def get_attachments(msg, attachments_dir, date, message_id):
             continue
         filename = part.get_filename()
         print(f"Found attachment: {filename}")
-        
+
         prefixed_filename = f"{date}__{message_id}__{filename}"
-        attachments.append(prefixed_filename)  
+        attachments.append(prefixed_filename)
 
         filepath = attachments_path / prefixed_filename
         with open(filepath, "wb") as attachment_file:
             attachment_file.write(part.get_payload(decode=True))
 
     return attachments
+
 
 def get_body(msg):
     """
@@ -225,18 +230,22 @@ def get_body(msg):
     if not msg.is_multipart():
         charset = msg.get_content_charset() or "utf-8"
         return msg.get_payload(decode=True).decode(charset, errors="replace")
-    
+
     plain_text = None
 
-    for part in msg.walk():  
+    for part in msg.walk():
         content_type = part.get_content_type()
         charset = part.get_content_charset() or "utf-8"
-        
+
         if content_type == "text/plain":
             plain_text = part.get_payload(decode=True).decode(charset, errors="replace")
-            break  
+            break
 
-    return plain_text.split("\nOn ")[0] if plain_text else "This email has no text in the body."
+    return (
+        plain_text.split("\nOn ")[0]
+        if plain_text
+        else "This email has no text in the body."
+    )
 
 
 def build_email_content(raw_file, date, subject, to, from_, attachments, body):
@@ -253,4 +262,4 @@ def build_email_content(raw_file, date, subject, to, from_, attachments, body):
             email_content += f"- {attachment}\n"
 
     email_content += f"\n{body}"
-    return email_content    
+    return email_content

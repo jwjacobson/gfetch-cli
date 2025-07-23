@@ -27,6 +27,7 @@ class DirConfig:
     """
     Store dir configuration in a class to allow easy access by emails.py
     """
+
     BASE_DIR = Path(config("BASE_DIR"))
     RAW_EMAIL_DIR = BASE_DIR / config("RAW_EMAIL_DIR")
     CLEAN_EMAIL_DIR = BASE_DIR / config("CLEAN_EMAIL_DIR")
@@ -42,6 +43,7 @@ def create_dirs(config):
 dir_config = DirConfig()
 create_dirs(dir_config)
 
+
 def get_emails(email_address, config=dir_config):
     try:
         fetch_emails(email_address, config)
@@ -56,8 +58,16 @@ def delete_files(config=dir_config):
     raw_dir = config.RAW_EMAIL_DIR
 
     attachments = list(attachments_dir.iterdir()) if attachments_dir.exists() else []
-    clean_emails = [email for email in clean_dir.iterdir() if email.suffix == ".txt"] if clean_dir.exists() else []
-    raw_emails = [email for email in raw_dir.iterdir() if email.suffix == ".eml"] if raw_dir.exists() else []
+    clean_emails = (
+        [email for email in clean_dir.iterdir() if email.suffix == ".txt"]
+        if clean_dir.exists()
+        else []
+    )
+    raw_emails = (
+        [email for email in raw_dir.iterdir() if email.suffix == ".eml"]
+        if raw_dir.exists()
+        else []
+    )
 
     deleted_emails = 0
     deleted_attachments = 0
@@ -88,9 +98,9 @@ def delete_files(config=dir_config):
         print(f"Deleted {deleted_emails} emails.")
     elif deleted_attachments:
         print(f"Deleted {deleted_attachments} attachments.")
-   
 
-def menu():     # pragma: no cover
+
+def menu():  # pragma: no cover
     while True:
         print_menu()
         choice = int(input())
@@ -98,7 +108,7 @@ def menu():     # pragma: no cover
         while choice not in {1, 2, 3}:
             print("Choose 1, 2, or 3.")
             choice = int(input())
-        
+
         if choice == 1:
             email_address = input("\nDownload emails with which correspondent? ")
             get_emails(email_address)
@@ -106,20 +116,22 @@ def menu():     # pragma: no cover
         elif choice == 2:
             print()
             delete_files()
-        
+
         else:
             break
 
-def print_menu():   # pragma: no cover
+
+def print_menu():  # pragma: no cover
     print("\nChoose an option:")
     print("1. Download emails")
     print("2. Delete saved emails")
     print("3. Quit")
 
 
-def main():   # pragma: no cover
+def main():  # pragma: no cover
     print("Welcome to Gfetch!")
     menu()
+
 
 if __name__ == "__main__":  # pragma: no cover
     main()
