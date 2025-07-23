@@ -349,12 +349,10 @@ def test_clean_email_many_attachments(many_attachments, fake_dir_config):
 def test_get_messages_and_next_page_no_token():
     mock_service = Mock()
     query = "queequeg@pequod.com"
-    
     mock_response = {
         "messages": [{"id": "123"}, {"id": "456"}],
         "nextPageToken": "Token"
     }
-    
     mock_list = mock_service.users().messages().list
     mock_list.return_value.execute.return_value = mock_response
     
@@ -368,12 +366,10 @@ def test_get_messages_and_next_page_token():
     mock_service = Mock()
     query = "queequeg@pequod.com"
     page_token = "Token"
-    
     mock_response = {
         "messages": [{"id": "123"}],
         "nextPageToken": None
     }
-    
     mock_list = mock_service.users().messages().list
     mock_list.return_value.execute.return_value = mock_response
 
@@ -388,7 +384,6 @@ def test_get_messages_and_next_page_token():
 def test_get_messages_and_next_page_empty_response():
     mock_service = Mock()
     query = "queequeg@pequod.com"
-    
     mock_response = {}
     mock_service.users().messages().list().execute.return_value = mock_response
     
@@ -400,7 +395,6 @@ def test_get_messages_and_next_page_empty_response():
 def test_get_messages_and_next_page_no_messages():
     mock_service = Mock()
     query = "queequeg@pequod.com"
-    
     mock_response = {"nextPageToken": "Token"}
     mock_service.users().messages().list().execute.return_value = mock_response
     
@@ -412,7 +406,6 @@ def test_get_messages_and_next_page_no_messages():
 def test_get_messages_and_next_page_no_response_token():
     mock_service = Mock()
     query = "queequeg@pequod.com"
-    
     mock_response = {"messages": [{"id": "123"}]}
     mock_service.users().messages().list().execute.return_value = mock_response
     
@@ -433,7 +426,6 @@ def test_get_messages_and_next_page_api_error():
 def test_get_messages_and_next_page_many_messages():
     mock_service = Mock()
     query = "queequeg@pequod.com"
-    
     mock_messages = [{"id": f"msg_{i}"} for i in range(100)]
     mock_response = {
         "messages": mock_messages,
@@ -479,11 +471,9 @@ def test_process_message_batch_one_message_no_attachments(fake_dir_config):
 def test_process_message_batch_one_message_attachments(fake_dir_config):
     mock_service = Mock()
     messages = [{"id": "msg456"}]
-    
     mock_raw_response = {
         "raw": base64.urlsafe_b64encode(b"email with attachments").decode("ASCII")
     }
-    
     mock_get = mock_service.users().messages().get
     mock_get.return_value.execute.return_value = mock_raw_response
     
@@ -492,6 +482,29 @@ def test_process_message_batch_one_message_attachments(fake_dir_config):
     
     assert result == 3
     mock_clean.assert_called_once()
+
+
+def test_process_message_batch_many_messages(fake_dir_config):
+    mock_service = Mock()
+    messages = [
+        {"id": "msg123"},
+        {"id": "msg456"},
+        {"id": "msg789"}
+    ]
+    
+    mock_raw_response = {
+        "raw": base64.urlsafe_b64encode(b"sample email").decode("ASCII")
+    }
+    mock_get = mock_service.users().messages().get
+    mock_get.return_value.execute.return_value = mock_raw_response
+    
+    with patch('emails.clean_email', side_effect=[3, 0, 2]) as mock_clean:
+        result = process_message_batch(fake_dir_config, mock_service, messages)
+    
+    assert mock_get.call_count == 3
+    assert mock_clean.call_count == 3
+    assert result == 5
+
 
 @patch('emails.get_credentials')
 def test_fetch_emails_no_credentials(mock_get_creds):
