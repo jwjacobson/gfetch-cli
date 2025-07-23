@@ -476,6 +476,23 @@ def test_process_message_batch_one_message_no_attachments(fake_dir_config):
     mock_clean.assert_called_once()
     assert result == 0
 
+def test_process_message_batch_one_message_attachments(fake_dir_config):
+    mock_service = Mock()
+    messages = [{"id": "msg456"}]
+    
+    mock_raw_response = {
+        "raw": base64.urlsafe_b64encode(b"email with attachments").decode("ASCII")
+    }
+    
+    mock_get = mock_service.users().messages().get
+    mock_get.return_value.execute.return_value = mock_raw_response
+    
+    with patch('emails.clean_email', return_value=3) as mock_clean:
+        result = process_message_batch(fake_dir_config, mock_service, messages)
+    
+    assert result == 3
+    mock_clean.assert_called_once()
+
 @patch('emails.get_credentials')
 def test_fetch_emails_no_credentials(mock_get_creds):
     mock_get_creds.return_value = None
