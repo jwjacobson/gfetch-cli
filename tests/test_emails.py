@@ -526,3 +526,20 @@ def test_fetch_emails_no_service(mock_build, mock_get_credentials):
     mock_build.assert_called_once_with("gmail", "v1", credentials="valid_creds")
     assert result == {"error": "Error building Gmail service: Service build failed"}
 
+
+@patch('emails.get_credentials', return_value="valid_creds")
+@patch('emails.build')
+@patch('emails.get_messages_and_next_page')
+@patch('emails.process_message_batch')
+def test_fetch_emails_one_page(mock_process, mock_get_messages, mock_build, mock_get_credentials):
+    mock_config = Mock()
+    mock_service = Mock()
+    mock_build.return_value = mock_service
+    mock_get_messages.return_value = ([{"id": "msg123"}, {"id": "msg456"}], None)
+    mock_process.return_value = 3
+    
+    result = fetch_emails("queequeg@pequod.com", mock_config)
+    
+    mock_get_messages.assert_called_once_with(mock_service, "to:queequeg@pequod.com OR from:queequeg@pequod.com", None)
+    mock_process.assert_called_once_with(mock_config, mock_service, [{"id": "msg123"}, {"id": "msg456"}])
+    assert result == {"total_messages": 2, "total_attachments": 3}
