@@ -1,6 +1,6 @@
 [project]
 name = "gfetch-cli"
-version = "0.1.0"
+version = "0.1.1"
 description = "A CLI app to back up your gmail emails locally"
 readme = "README.md"
 license = {file = "LICENSE"}
