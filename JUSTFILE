@@ -6,3 +6,6 @@ default SESSION_NAME="gfetch-cli":
 run:
     uv run src/gfetch/app.py
 
+# Run tests
+test *args:
+    uv run pytest {{ args }}

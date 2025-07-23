@@ -3,19 +3,27 @@ import pytest
 
 
 @pytest.fixture(scope="function")
-def temp_dirs(tmp_path_factory):
+def temp_dir_paths(tmp_path):
     """
-    Create temporary directories to delete files from.
+    Create temporary directory paths.
     """
-    attachments_dir = tmp_path_factory.mktemp("attachments")
-    clean_email_dir = tmp_path_factory.mktemp("clean_emails")
-    raw_email_dir = tmp_path_factory.mktemp("raw_emails")
 
     return {
-        "attachments_dir": attachments_dir,
-        "clean_email_dir": clean_email_dir,
-        "raw_email_dir": raw_email_dir,
+        "attachments_dir": tmp_path / "attachments",
+        "clean_email_dir": tmp_path / "clean_emails",
+        "raw_email_dir": tmp_path / "raw_emails",
     }
+
+@pytest.fixture(scope="function")
+def temp_dirs(temp_dir_paths):
+    """
+    Create temporary directories.
+    """
+
+    for path in temp_dir_paths.values():
+        path.mkdir()
+    
+    return temp_dir_paths
 
 
 @pytest.fixture
@@ -108,3 +116,22 @@ def temp_files_only_raw(temp_dirs):
     (temp_dirs["raw_email_dir"] / "email2.eml").touch()
 
     return temp_dirs
+
+class FakeDirConfig:
+    """
+    A DirConfig that points to the temporary test directories.
+    """
+    def __init__(self, temp_dirs):
+        self.BASE_DIR = temp_dirs["raw_email_dir"].parent
+        self.RAW_EMAIL_DIR = temp_dirs["raw_email_dir"]
+        self.CLEAN_EMAIL_DIR = temp_dirs["clean_email_dir"]
+        self.ATTACHMENTS_DIR = temp_dirs["attachments_dir"]
+
+
+@pytest.fixture()
+def fake_dir_config(temp_dirs):
+    return FakeDirConfig(temp_dirs)
+
+@pytest.fixture()
+def fake_dir_config_paths_only(temp_dir_paths):
+    return FakeDirConfig(temp_dir_paths)

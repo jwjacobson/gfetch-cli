@@ -30,7 +30,6 @@ def fetch_emails(email_address, config):
     """
     Fetch all emails from a given email address.
     """
-    raw_dir = config.RAW_EMAIL_DIR
     creds = get_credentials()
 
     if not creds:
@@ -44,53 +43,71 @@ def fetch_emails(email_address, config):
         return {"error": f"Error building Gmail service: {e}"}
 
     query = f"to:{email_address} OR from:{email_address}"
-    next_page_token = None
     total_messages = 0
     total_attachments = 0
+    next_page_token = None
 
     while True:
-        if next_page_token:
-            results = (
-                service.users()
-                .messages()
-                .list(userId="me", q=query, pageToken=next_page_token)
-                .execute()
-            )
-        else:
-            results = service.users().messages().list(userId="me", q=query).execute()
-
-        messages = results.get("messages", [])
-        next_page_token = results.get("nextPageToken", None)
+        messages, next_page_token = get_messages_and_next_page(service, query, next_page_token)
 
         if not messages:
             print("No messages remain.")
             break
-        else:
-            for message in messages:
-                message_id = message["id"] 
-                msg = (
-                    service.users()
-                    .messages()
-                    .get(userId="me", id=message["id"], format="raw")
-                    .execute()
-                )
-                msg_str = base64.urlsafe_b64decode(msg["raw"].encode("ASCII"))
-                raw_email_path = raw_dir / f'email_{message["id"]}.eml'
-                print(f'\nRetrieving message {raw_email_path.name}.')
-                with open(raw_email_path, "wb") as f:
-                    f.write(msg_str)
-                attachments = clean_email(raw_email_path, config, message_id)
-                if attachments:
-                    total_attachments += attachments
-
-            total_messages += len(messages)
-
+    
+        batch_attachments = process_message_batch(config, service, messages)
+        total_messages += len(messages)
+        total_attachments += batch_attachments
+    
         if not next_page_token:
             break
 
     print("\nDone.")
     print(f"Retrieved {total_messages} messages and {total_attachments} attachments.")
     return {"total_messages": total_messages, "total_attachments": total_attachments}
+
+def get_messages_and_next_page(service, query, next_page_token=None):
+    """
+    Get a list of messages and a next_page_token for a given query.
+    """
+    if next_page_token:
+            results = (
+                service.users()
+                .messages()
+                .list(userId="me", q=query, pageToken=next_page_token)
+                .execute()
+            )
+    else:
+        results = service.users().messages().list(userId="me", q=query).execute()
+
+    messages = results.get("messages", [])
+    next_page_token = results.get("nextPageToken")
+
+    return messages, next_page_token
+
+def process_message_batch(config, service, messages):
+    """
+    Process a batch of messages and return the attachment count.
+    """
+    raw_dir = config.RAW_EMAIL_DIR
+    batch_attachments = 0
+    
+    for message in messages:
+        message_id = message["id"] 
+        msg = (
+            service.users()
+            .messages()
+            .get(userId="me", id=message["id"], format="raw")
+            .execute()
+        )
+        msg_str = base64.urlsafe_b64decode(msg["raw"].encode("ASCII"))
+        raw_email_path = raw_dir / f'email_{message["id"]}.eml'
+        print(f'\nRetrieving message {raw_email_path.name}.')
+        with open(raw_email_path, "wb") as f:
+            f.write(msg_str)
+        attachments = clean_email(raw_email_path, config, message_id)
+        batch_attachments += attachments or 0
+    
+    return batch_attachments
 
 
 def clean_email(email_file, config, message_id):
