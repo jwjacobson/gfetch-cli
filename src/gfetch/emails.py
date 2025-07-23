@@ -105,8 +105,7 @@ def process_message_batch(config, service, messages):
         with open(raw_email_path, "wb") as f:
             f.write(msg_str)
         attachments = clean_email(raw_email_path, config, message_id)
-        if attachments:
-            batch_attachments += attachments
+        batch_attachments += attachments or 0
     
     return batch_attachments
 

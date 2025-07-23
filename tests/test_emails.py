@@ -1,3 +1,4 @@
+import base64
 import pytest
 from pathlib import Path
 from unittest.mock import Mock, patch
@@ -454,6 +455,25 @@ def test_process_message_batch_no_messages(fake_dir_config):
 
     result = process_message_batch(fake_dir_config, mock_service, messages)
 
+    assert result == 0
+
+def test_process_message_batch_one_message_no_attachments(fake_dir_config):
+    mock_service = Mock()
+    messages = [{"id": "msg123"}]
+    
+    mock_raw_response = {
+        "raw": base64.urlsafe_b64encode(b"fake email content").decode("ASCII")
+    }
+    mock_get = mock_service.users().messages().get
+    mock_get.return_value.execute.return_value = mock_raw_response
+
+    with patch('emails.clean_email', return_value=0) as mock_clean:
+        result = process_message_batch(fake_dir_config, mock_service, messages)
+    
+    mock_service.users().messages().get.assert_called_once_with(
+        userId="me", id="msg123", format="raw"
+    )
+    mock_clean.assert_called_once()
     assert result == 0
 
 @patch('emails.get_credentials')
