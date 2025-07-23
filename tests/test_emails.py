@@ -549,7 +549,7 @@ def test_fetch_emails_one_page(mock_process, mock_get_messages, mock_build, mock
 @patch('emails.build')
 @patch('emails.get_messages_and_next_page')
 @patch('emails.process_message_batch')
-def test_fetch_emails_two_pages(mock_process, mock_get_messages, mock_build, mock_get_creds):
+def test_fetch_emails_two_pages(mock_process, mock_get_messages, mock_build, mock_get_credentials):
     mock_config = Mock()
     mock_service = Mock()
     mock_build.return_value = mock_service
@@ -567,3 +567,20 @@ def test_fetch_emails_two_pages(mock_process, mock_get_messages, mock_build, moc
     mock_get_messages.assert_any_call(mock_service, "to:queequeg@pequod.com OR from:queequeg@pequod.com", "Token")
     
     assert result == {"total_messages": 3, "total_attachments": 5}
+
+
+@patch('emails.get_credentials', return_value="valid_creds")
+@patch('emails.build')
+@patch('emails.get_messages_and_next_page')
+@patch('emails.process_message_batch')
+def test_fetch_emails_no_messages(mock_process, mock_get_messages, mock_build, mock_get_credentials):
+    mock_config = Mock()
+    mock_service = Mock()
+    mock_build.return_value = mock_service
+    mock_get_messages.return_value = ([], None)
+    
+    result = fetch_emails("queequeg@pequod.com", mock_config)
+
+    mock_get_messages.assert_called_once()
+    mock_process.assert_not_called()
+    assert result == {"total_messages": 0, "total_attachments": 0}
