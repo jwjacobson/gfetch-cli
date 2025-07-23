@@ -61,7 +61,7 @@ just run
 Follow the onscreen instructions to back up your emails!
 
 > [!NOTE]
-> At present, Gfetch only allows you to download *all* correspondence with a provided address.
+> At present, Gfetch only allows you to download *all* correspondence with a given address.
 
 If you don't have a valid token, your default browser will open for you to authenticate with the account of your choice when you enter a correspondent's email. You will also have to grant access to Gfetch in order to download your emails. I promise I'm not doing anything with them! (terms of service to be published soon)
 
