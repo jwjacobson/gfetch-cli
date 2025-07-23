@@ -12,6 +12,7 @@ from emails import (
     fetch_emails,
     format_subject,
     get_attachments,
+    get_messages_and_next_page,
     get_body,
     set_date,
 )
@@ -350,3 +351,106 @@ def test_fetch_emails_no_credentials(mock_get_creds):
     result = fetch_emails("test@example.com", mock_config)
     
     assert result == {"error": "Failed to obtain credentials."}
+
+
+def test_get_messages_and_next_page_no_token():
+    mock_service = Mock()
+    query = "queequeg@pequod.com"
+    
+    mock_response = {
+        "messages": [{"id": "123"}, {"id": "456"}],
+        "nextPageToken": "Token"
+    }
+    
+    mock_list = mock_service.users().messages().list
+    mock_list.return_value.execute.return_value = mock_response
+    
+    messages, next_token = get_messages_and_next_page(mock_service, query)
+    
+    mock_list.assert_called_once_with(userId="me", q=query)
+    assert len(messages) == 2
+    assert next_token == "Token"
+
+def test_get_messages_and_next_page_token():
+    mock_service = Mock()
+    query = "queequeg@pequod.com"
+    page_token = "Token"
+    
+    mock_response = {
+        "messages": [{"id": "123"}],
+        "nextPageToken": None
+    }
+    
+    mock_list = mock_service.users().messages().list
+    mock_list.return_value.execute.return_value = mock_response
+
+    messages, next_token = get_messages_and_next_page(mock_service, query, page_token)
+    
+    mock_service.users().messages().list.assert_called_once_with(
+        userId="me", q=query, pageToken=page_token
+    )
+    assert len(messages) == 1
+    assert next_token is None
+
+def test_get_messages_and_next_page_empty_response():
+    mock_service = Mock()
+    query = "queequeg@pequod.com"
+    
+    mock_response = {}
+    mock_service.users().messages().list().execute.return_value = mock_response
+    
+    messages, next_token = get_messages_and_next_page(mock_service, query)
+    
+    assert messages == []
+    assert next_token is None
+
+def test_get_messages_and_next_page_no_messages():
+    mock_service = Mock()
+    query = "queequeg@pequod.com"
+    
+    mock_response = {"nextPageToken": "Token"}
+    mock_service.users().messages().list().execute.return_value = mock_response
+    
+    messages, next_token = get_messages_and_next_page(mock_service, query)
+    
+    assert messages == []
+    assert next_token == "Token"
+
+def test_get_messages_and_next_page_no_response_token():
+    mock_service = Mock()
+    query = "queequeg@pequod.com"
+    
+    mock_response = {"messages": [{"id": "123"}]}
+    mock_service.users().messages().list().execute.return_value = mock_response
+    
+    messages, next_token = get_messages_and_next_page(mock_service, query)
+    
+    assert len(messages) == 1
+    assert next_token is None
+
+def test_get_messages_and_next_page_api_error():
+    mock_service = Mock()
+    query = "queequeg@pequod.com"
+    
+    mock_service.users().messages().list().execute.side_effect = Exception("API Error")
+    
+    with pytest.raises(Exception, match="API Error"):
+        get_messages_and_next_page(mock_service, query)
+
+def test_get_messages_and_next_page_many_messages():
+    mock_service = Mock()
+    query = "queequeg@pequod.com"
+    
+    mock_messages = [{"id": f"msg_{i}"} for i in range(100)]
+    mock_response = {
+        "messages": mock_messages,
+        "nextPageToken": "Token"
+    }
+    mock_service.users().messages().list().execute.return_value = mock_response
+    
+    messages, next_token = get_messages_and_next_page(mock_service, query)
+    
+    assert len(messages) == 100
+    assert next_token == "Token"
+    assert messages[0]["id"] == "msg_0"
+    assert messages[-1]["id"] == "msg_99"
