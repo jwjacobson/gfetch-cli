@@ -7,7 +7,7 @@ from email import policy
 from email.parser import BytesParser
 
 
-from emails import (
+from gfetch.emails import (
     build_email_content,
     clean_email,
     fetch_emails,
@@ -478,7 +478,7 @@ def test_process_message_batch_one_message_no_attachments(fake_dir_config):
     mock_get = mock_service.users().messages().get
     mock_get.return_value.execute.return_value = mock_raw_response
 
-    with patch("emails.clean_email", return_value=0) as mock_clean:
+    with patch("gfetch.emails.clean_email", return_value=0) as mock_clean:
         result = process_message_batch(fake_dir_config, mock_service, messages)
 
     mock_service.users().messages().get.assert_called_once_with(
@@ -497,7 +497,7 @@ def test_process_message_batch_one_message_attachments(fake_dir_config):
     mock_get = mock_service.users().messages().get
     mock_get.return_value.execute.return_value = mock_raw_response
 
-    with patch("emails.clean_email", return_value=3) as mock_clean:
+    with patch("gfetch.emails.clean_email", return_value=3) as mock_clean:
         result = process_message_batch(fake_dir_config, mock_service, messages)
 
     assert result == 3
@@ -514,7 +514,7 @@ def test_process_message_batch_many_messages(fake_dir_config):
     mock_get = mock_service.users().messages().get
     mock_get.return_value.execute.return_value = mock_raw_response
 
-    with patch("emails.clean_email", side_effect=[3, 0, 2]) as mock_clean:
+    with patch("gfetch.emails.clean_email", side_effect=[3, 0, 2]) as mock_clean:
         result = process_message_batch(fake_dir_config, mock_service, messages)
 
     assert mock_get.call_count == 3
@@ -522,7 +522,7 @@ def test_process_message_batch_many_messages(fake_dir_config):
     assert result == 5
 
 
-@patch("emails.get_credentials", return_value=None)
+@patch("gfetch.emails.get_credentials", return_value=None)
 def test_fetch_emails_no_credentials(mock_get_credentials):
     mock_config = Mock()
 
@@ -531,8 +531,8 @@ def test_fetch_emails_no_credentials(mock_get_credentials):
     assert result == {"error": "Failed to obtain credentials."}
 
 
-@patch("emails.get_credentials", return_value="valid_creds")
-@patch("emails.build", side_effect=Exception("Service build failed"))
+@patch("gfetch.emails.get_credentials", return_value="valid_creds")
+@patch("gfetch.emails.build", side_effect=Exception("Service build failed"))
 def test_fetch_emails_no_service(mock_build, mock_get_credentials):
     mock_config = Mock()
 
@@ -543,10 +543,10 @@ def test_fetch_emails_no_service(mock_build, mock_get_credentials):
     assert result == {"error": "Error building Gmail service: Service build failed"}
 
 
-@patch("emails.get_credentials", return_value="valid_creds")
-@patch("emails.build")
-@patch("emails.get_messages_and_next_page")
-@patch("emails.process_message_batch")
+@patch("gfetch.emails.get_credentials", return_value="valid_creds")
+@patch("gfetch.emails.build")
+@patch("gfetch.emails.get_messages_and_next_page")
+@patch("gfetch.emails.process_message_batch")
 def test_fetch_emails_one_page(
     mock_process, mock_get_messages, mock_build, mock_get_credentials
 ):
@@ -567,10 +567,10 @@ def test_fetch_emails_one_page(
     assert result == {"total_messages": 2, "total_attachments": 3}
 
 
-@patch("emails.get_credentials", return_value="valid_creds")
-@patch("emails.build")
-@patch("emails.get_messages_and_next_page")
-@patch("emails.process_message_batch")
+@patch("gfetch.emails.get_credentials", return_value="valid_creds")
+@patch("gfetch.emails.build")
+@patch("gfetch.emails.get_messages_and_next_page")
+@patch("gfetch.emails.process_message_batch")
 def test_fetch_emails_two_pages(
     mock_process, mock_get_messages, mock_build, mock_get_credentials
 ):
@@ -597,10 +597,10 @@ def test_fetch_emails_two_pages(
     assert result == {"total_messages": 3, "total_attachments": 5}
 
 
-@patch("emails.get_credentials", return_value="valid_creds")
-@patch("emails.build")
-@patch("emails.get_messages_and_next_page")
-@patch("emails.process_message_batch")
+@patch("gfetch.emails.get_credentials", return_value="valid_creds")
+@patch("gfetch.emails.build")
+@patch("gfetch.emails.get_messages_and_next_page")
+@patch("gfetch.emails.process_message_batch")
 def test_fetch_emails_no_messages(
     mock_process, mock_get_messages, mock_build, mock_get_credentials
 ):

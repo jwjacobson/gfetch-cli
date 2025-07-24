@@ -1,4 +1,4 @@
-from app import create_dirs, delete_files
+from gfetch.app import create_dirs, delete_files
 
 
 def test_create_dirs_dont_exist(fake_dir_config_paths_only):

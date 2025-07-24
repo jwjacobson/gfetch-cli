@@ -1,9 +1,10 @@
 from unittest.mock import Mock, patch, mock_open
-from auth import get_credentials
+
+from gfetch.auth import get_credentials
 
 
 @patch("pathlib.Path.exists")
-@patch("auth.Credentials.from_authorized_user_file")
+@patch("gfetch.auth.Credentials.from_authorized_user_file")
 def test_get_credentials_token_valid(mock_from_file, mock_exists):
     mock_exists.return_value = True
     mock_creds = Mock()
@@ -17,7 +18,7 @@ def test_get_credentials_token_valid(mock_from_file, mock_exists):
 
 
 @patch("pathlib.Path.exists")
-@patch("auth.InstalledAppFlow.from_client_secrets_file")
+@patch("gfetch.auth.InstalledAppFlow.from_client_secrets_file")
 @patch("builtins.open", mock_open())
 def test_get_credentials_no_token(mock_flow, mock_exists):
     mock_exists.return_value = False
@@ -35,8 +36,8 @@ def test_get_credentials_no_token(mock_flow, mock_exists):
 
 
 @patch("pathlib.Path.exists")
-@patch("auth.Credentials.from_authorized_user_file")
-@patch("auth.Request")
+@patch("gfetch.auth.Credentials.from_authorized_user_file")
+@patch("gfetch.auth.Request")
 def test_get_credentials_expired(mock_request, mock_from_file, mock_exists):
     mock_exists.return_value = True
     mock_creds = Mock()
