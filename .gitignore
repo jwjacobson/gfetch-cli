@@ -6,6 +6,7 @@ token.json
 sample_*
 raw_emails/
 cleaned_emails/
+dist/
 scratch*.py
 .env
 .coverage
