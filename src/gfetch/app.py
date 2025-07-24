@@ -28,10 +28,10 @@ class DirConfig:
     Store dir configuration in a class to allow easy access by emails.py
     """
 
-    BASE_DIR = Path(config("BASE_DIR"))
-    RAW_EMAIL_DIR = BASE_DIR / config("RAW_EMAIL_DIR")
-    CLEAN_EMAIL_DIR = BASE_DIR / config("CLEAN_EMAIL_DIR")
-    ATTACHMENTS_DIR = BASE_DIR / config("ATTACHMENTS_DIR")
+    BASE_DIR = Path(config("BASE_DIR"), default='gfetch')
+    RAW_EMAIL_DIR = BASE_DIR / config("RAW_EMAIL_DIR", default='raw_emails')
+    CLEAN_EMAIL_DIR = BASE_DIR / config("CLEAN_EMAIL_DIR", default='cleaned_emails')
+    ATTACHMENTS_DIR = BASE_DIR / config("ATTACHMENTS_DIR", default='cleaned_emails/attachments')
 
 
 def create_dirs(config):
