@@ -42,6 +42,8 @@ src
 > `credentials.json` contains sensitive data and should not be put in version control. It is already listed in `.gitignore` but might not be covered if you change the filename.
 
 ## Setting up Google Cloud
+For now, Gfetch requires you to create your own credentials to use it.
+
 1. Go to the [Google Cloud Console](https://console.cloud.google.com/welcome/) and create an account if you don't have one
 2. Using the navigation menu in the top-left of the screen, go to ```APIs & Services```, then ```Enable APIs and Services```
 3. Search ```gmail``` in the box and find the Gmail API, then enable it
