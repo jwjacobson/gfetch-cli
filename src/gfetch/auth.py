@@ -6,7 +6,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 SCOPES = config("SCOPES", default='https://www.googleapis.com/auth/gmail.readonly')
-BASE_DIR = Path(config("BASE_DIR"), default='gfetch')
+BASE_DIR = Path(config("BASE_DIR", default='gfetch'))
 CREDS = BASE_DIR / config("CREDS", default='credentials.json')
 TOKEN = BASE_DIR / config("TOKEN", default='token.json')
 
