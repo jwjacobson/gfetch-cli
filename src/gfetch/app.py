@@ -20,7 +20,7 @@ from pathlib import Path
 
 from decouple import config
 
-from emails import fetch_emails
+from .emails import fetch_emails
 
 
 class DirConfig:

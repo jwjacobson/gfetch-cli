@@ -23,7 +23,7 @@ from email.parser import BytesParser
 
 from googleapiclient.discovery import build
 
-from auth import get_credentials
+from .auth import get_credentials
 
 
 def fetch_emails(email_address, config):
