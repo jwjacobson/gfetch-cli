@@ -52,7 +52,7 @@ src
 
 ## Running gfetch
 ```bash
-uv run src/gfetch/app.py
+uv run gfetch
 ```
 Or, if you have [Just](https://github.com/casey/just) installed:
 ```bash
