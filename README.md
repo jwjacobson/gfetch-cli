@@ -6,7 +6,20 @@ This app helps you create local backups of your Gmail emails. It saves raw .eml 
 
  It is built using [Python](https://www.python.org/) and the [Gmail API](https://developers.google.com/workspace/gmail/api/reference/rest).
 
-## Installation (using [uv](https://docs.astral.sh/uv/))
+> [!NOTE]
+> The following instructions assume you are using [uv](https://docs.astral.sh/uv/)
+
+## Running Gfetch without installation 
+```
+uvx gfetch
+```
+> [!NOTE]
+> You will not be able to download emails without a valid `credentials.json` file (see [Setting up Google Cloud](https://github.com/jwjacobson/gfetch-cli?tab=readme-ov-file#setting-up-google-cloud))
+
+> [!WARNING]
+> Invoking gfetch in this way will create a directory called `gfetch` and its subdirectories in your current working directory!
+
+## Installation for local development
 [Clone this repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository):
 ```bash
 git clone git@github.com:jwjacobson/gfetch-cli.git
@@ -36,7 +49,7 @@ src
 ```
 > [!NOTE]
 > - The `cleaned_emails`, `raw_emails`, and `attachments` directories are not part of the repo, but will be created when you run the app.
-> - You have to manually download `credentials.json` (see "Setting up Google Cloud" below); `token.json` will be generated automatically when you authenticate with the app.
+> - You have to manually download `credentials.json` (see [Setting up Google Cloud](https://github.com/jwjacobson/gfetch-cli?tab=readme-ov-file#setting-up-google-cloud) below); `token.json` will be generated automatically when you authenticate with the app.
 
 > [!WARNING]
 > `credentials.json` contains sensitive data and should not be put in version control. It is already listed in `.gitignore` but might not be covered if you change the filename.
@@ -52,7 +65,7 @@ For now, Gfetch requires you to create your own credentials to use it.
 6. Follow the prompts to generate credentials
 7. Once you've created the credentials, must download them immediately, as you won't be able to access them again once you've left the confirmation screen.  Download the credentials JSON and save it as `credentials.json` in `src/gfetch/`
 
-## Running gfetch
+## Running gfetch after local installation
 ```bash
 uv run gfetch
 ```
