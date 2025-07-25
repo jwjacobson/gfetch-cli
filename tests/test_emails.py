@@ -229,7 +229,7 @@ def test_build_email_content_no_attachments(no_attachments, temp_dirs):
     body = get_body(message)
 
     result = build_email_content(raw_file, date, subject, to, from_, attachments, body)
-    expected = "***no_attachments.eml***\nDATE: 2013-07-05\nSUBJECT: Re:\nTO: Will Jakobson <will@jmail.com>\nFROM: Stu Bettler <stu@bmail.com>\n\nHey Will,\n\nJust wanted to confirm our plans for later.\n\nLet me know,\nStu\n\n"
+    expected = "DATE: 2013-07-05\nSUBJECT: Re:\nTO: Will Jakobson <will@jmail.com>\nFROM: Stu Bettler <stu@bmail.com>\n\nHey Will,\n\nJust wanted to confirm our plans for later.\n\nLet me know,\nStu\n\n"
 
     assert result == expected
 
@@ -247,7 +247,7 @@ def test_build_email_content_one_attachment(one_attachment, temp_dirs):
     body = get_body(message)
 
     result = build_email_content(raw_file, date, subject, to, from_, attachments, body)
-    expected = f"***one_attachment.eml***\nDATE: 2011-07-10\nSUBJECT: beautiful and stunning\nTO: stu bettler <stu@bmail.com>\nFROM: Will Jakobson <will@jmail.com>\nATTACHMENTS:\n- {date}__{message_id}__beautifulandstunning.png\n\ni just saw this.  made me chuckle, and reminded me of writing alone.\n"
+    expected = f"DATE: 2011-07-10\nSUBJECT: beautiful and stunning\nTO: stu bettler <stu@bmail.com>\nFROM: Will Jakobson <will@jmail.com>\nATTACHMENTS:\n- {date}__{message_id}__beautifulandstunning.png\n\ni just saw this.  made me chuckle, and reminded me of writing alone.\n"
 
     assert result == expected
 
@@ -265,7 +265,7 @@ def test_build_email_content_many_attachments(many_attachments, temp_dirs):
     body = get_body(message)
 
     result = build_email_content(raw_file, date, subject, to, from_, attachments, body)
-    expected = f"***many_attachments.eml***\nDATE: 2015-06-19\nSUBJECT: Revisions\nTO: Stu Bettler <stu@bmail.com>, Will Jakobson <will@jmail.com>\nFROM: Stu Bettler <stu@bmail.com>\nATTACHMENTS:\n- {date}__{message_id}__ADVICE TO NEW TEACHERS.pdf\n- {date}__{message_id}__CREDULOUDLY RAPT.pdf\n- {date}__{message_id}__HOW TO GRADE IMPERSONALLY.pdf\n- {date}__{message_id}__I'D RATHER SPEND NEW YEAR'S IN A BARN.pdf\n- {date}__{message_id}__THE DISASTER ODDS.pdf\n- {date}__{message_id}__TRESSPASSING AT THE PUMPING STATION.pdf\n\nJust some drafts.\n"
+    expected = f"DATE: 2015-06-19\nSUBJECT: Revisions\nTO: Stu Bettler <stu@bmail.com>, Will Jakobson <will@jmail.com>\nFROM: Stu Bettler <stu@bmail.com>\nATTACHMENTS:\n- {date}__{message_id}__ADVICE TO NEW TEACHERS.pdf\n- {date}__{message_id}__CREDULOUDLY RAPT.pdf\n- {date}__{message_id}__HOW TO GRADE IMPERSONALLY.pdf\n- {date}__{message_id}__I'D RATHER SPEND NEW YEAR'S IN A BARN.pdf\n- {date}__{message_id}__THE DISASTER ODDS.pdf\n- {date}__{message_id}__TRESSPASSING AT THE PUMPING STATION.pdf\n\nJust some drafts.\n"
 
     assert result == expected
 
@@ -283,7 +283,7 @@ def test_build_email_content_no_subject(no_subject, temp_dirs):
     body = get_body(message)
 
     result = build_email_content(raw_file, date, subject, to, from_, attachments, body)
-    expected = "***no_subject.eml***\nDATE: 2010-01-06\nSUBJECT: \nTO: stu@bmail.com\nFROM: Will Jakobson <will@jmail.com>\n\nGreetings from the tropics!\n"
+    expected = "DATE: 2010-01-06\nSUBJECT: \nTO: stu@bmail.com\nFROM: Will Jakobson <will@jmail.com>\n\nGreetings from the tropics!\n"
 
     assert result == expected
 

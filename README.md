@@ -7,14 +7,14 @@ This app helps you create local backups of your Gmail emails. It saves raw .eml 
  It is built using [Python](https://www.python.org/) and the [Gmail API](https://developers.google.com/workspace/gmail/api/reference/rest).
 
 > [!NOTE]
-> The following instructions assume you are using [uv](https://docs.astral.sh/uv/)
+> The following instructions assume you are using [uv](https://docs.astral.sh/uv/).
 
 ## Running Gfetch without installation 
 ```
 uvx gfetch
 ```
 > [!NOTE]
-> You will not be able to download emails without a valid `credentials.json` file (see [Setting up Google Cloud](https://github.com/jwjacobson/gfetch-cli?tab=readme-ov-file#setting-up-google-cloud))
+> You will not be able to download emails without a valid `credentials.json` file (see [Setting up Google Cloud](https://github.com/jwjacobson/gfetch-cli?tab=readme-ov-file#setting-up-google-cloud)).
 
 > [!WARNING]
 > Invoking gfetch in this way will create a directory called `gfetch` and its subdirectories in your current working directory!

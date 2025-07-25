@@ -252,8 +252,11 @@ def build_email_content(raw_file, date, subject, to, from_, attachments, body):
     """
     Construct and return one big email string from all its component parts.
     """
+    # email_content = (
+    #     f"***{raw_file}***\nDATE: {date}\nSUBJECT: {subject}\nTO: {to}\nFROM: {from_}\n"
+    # )
     email_content = (
-        f"***{raw_file}***\nDATE: {date}\nSUBJECT: {subject}\nTO: {to}\nFROM: {from_}\n"
+        f"DATE: {date}\nSUBJECT: {subject}\nTO: {to}\nFROM: {from_}\n"
     )
 
     if attachments:
