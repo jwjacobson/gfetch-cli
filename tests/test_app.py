@@ -1,5 +1,10 @@
-from gfetch.app import create_dirs, delete_files
+import pytest
 
+from gfetch.app import (
+    create_dirs,
+    delete_files,
+    creds_check
+)
 
 def test_create_dirs_dont_exist(fake_dir_config_paths_only):
     raw_path = fake_dir_config_paths_only.RAW_EMAIL_DIR
@@ -48,6 +53,15 @@ def test_create_dirs_already_exist(fake_dir_config):
     assert not any(clean_path.iterdir())
     assert not any(attachments_path.iterdir())
 
+def test_creds_check_no_creds(fake_dir_config, capsys):
+    with pytest.raises(SystemExit) as exit:
+        creds_check(fake_dir_config)
+    
+    assert exit.value.code == 1
+    output = capsys.readouterr().out
+    assert "No credentials file" in output
+    assert "generate credentials first" in output
+    assert "github.com/jwjacobson/gfetch-cli"
 
 def test_delete_files_all(fake_dir_config, temp_files_all, capsys):
     raw_path = fake_dir_config.RAW_EMAIL_DIR
