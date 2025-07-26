@@ -63,6 +63,13 @@ def test_creds_check_no_creds(fake_dir_config, capsys):
     assert "generate credentials first" in output
     assert "github.com/jwjacobson/gfetch-cli"
 
+def test_creds_check_happy(fake_dir_config):
+    fake_dir_config.CREDS.touch()
+    
+    result = creds_check(fake_dir_config)
+
+    assert result is None
+
 def test_delete_files_all(fake_dir_config, temp_files_all, capsys):
     raw_path = fake_dir_config.RAW_EMAIL_DIR
     clean_path = fake_dir_config.CLEAN_EMAIL_DIR
