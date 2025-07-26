@@ -17,6 +17,7 @@
 
 
 from pathlib import Path
+import sys
 
 from decouple import config
 
@@ -32,6 +33,7 @@ class DirConfig:
     RAW_EMAIL_DIR = BASE_DIR / config("RAW_EMAIL_DIR", default='raw_emails')
     CLEAN_EMAIL_DIR = BASE_DIR / config("CLEAN_EMAIL_DIR", default='cleaned_emails')
     ATTACHMENTS_DIR = BASE_DIR / config("ATTACHMENTS_DIR", default='cleaned_emails/attachments')
+    CREDS = BASE_DIR / config("CREDS", default='credentials.json')
 
 
 def create_dirs(config):
@@ -39,10 +41,15 @@ def create_dirs(config):
     config.CLEAN_EMAIL_DIR.mkdir(parents=True, exist_ok=True)
     config.ATTACHMENTS_DIR.mkdir(parents=True, exist_ok=True)
 
+def creds_check(config):
+    if not config.CREDS.exists():
+        print(f"\nNo credentials file ({config.CREDS}) found.")
+        print("To use the app, generate credentials first at https://console.cloud.google.com/.")
+        print("See https://github.com/jwjacobson/gfetch-cli?tab=readme-ov-file#setting-up-google-cloud for more info.")
+
+        raise SystemExit(1)
 
 dir_config = DirConfig()
-create_dirs(dir_config)
-
 
 def get_emails(email_address, config=dir_config):
     try:
@@ -130,6 +137,8 @@ def print_menu():  # pragma: no cover
 
 def main():  # pragma: no cover
     print("Welcome to Gfetch!")
+    create_dirs(dir_config)
+    creds_check(dir_config)
     menu()
 
 
