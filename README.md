@@ -57,13 +57,13 @@ src
 ## Setting up Google Cloud
 For now, Gfetch requires you to create your own credentials to use it.
 
-1. Go to the [Google Cloud Console](https://console.cloud.google.com/welcome/) and create an account if you don't have one
-2. Using the navigation menu in the top-left of the screen, go to ```APIs & Services```, then ```Enable APIs and Services```
-3. Search ```gmail``` in the box and find the Gmail API, then enable it
-4. In the ```APIs & Services``` menu, click ```Credentials```, then click ```Create Credentials```, then ```OAuth Client ID```
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/welcome/) and create an account if you don't have one.
+2. Using the navigation menu in the top-left of the screen, go to ```APIs & Services```, then ```Enable APIs and Services```.
+3. Search ```gmail``` in the box and find the Gmail API, then enable it.
+4. In the ```APIs & Services``` menu, click ```Credentials```, then click ```Create Credentials```, then ```OAuth Client ID```.
 5. For application type, select `Desktop App` and name it how you desire -- perhaps `gfetch`?
-6. Follow the prompts to generate credentials
-7. Once you've created the credentials, must download them immediately, as you won't be able to access them again once you've left the confirmation screen.  Download the credentials JSON and save it as `credentials.json` in `src/gfetch/`
+6. Follow the prompts to generate credentials.
+7. Once you've created the credentials, you must download them immediately, as you won't be able to access them again once you've left the confirmation screen.  Download the credentials JSON and save it as `credentials.json` in `src/gfetch/` or your `gfetch` directory (if you're using uvx).
 
 ## Running gfetch after local installation
 ```bash
@@ -78,7 +78,9 @@ Follow the onscreen instructions to back up your emails!
 > [!NOTE]
 > At present, Gfetch only allows you to download *all* correspondence with a given address.
 
-If you don't have a valid token, your default browser will open for you to authenticate with the account of your choice when you enter a correspondent's email. You will also have to grant access to Gfetch in order to download your emails. I promise I'm not doing anything with them! (terms of service to be published soon)
+If you don't have a valid token (`token.json` in the `gfetch` folder), your default browser will open for you to authenticate with the account of your choice when you enter a correspondent's email.
+
+To download emails, must grant access to your Gmail account to Gfetch. Gfetch only requires read-only access to Gmail account, and your emails are saved on processed on your hard drive. They are never stored elsewhere or used for any other purpose. For more details, see the [terms of service](https://github.com/jwjacobson/gfetch-cli/blob/main/terms_of_service.md) and [privacy policy](https://github.com/jwjacobson/gfetch-cli/blob/main/privacy_policy.md).
 
 ### License
 Gfetch is [free software](https://www.fsf.org/about/what-is-free-software), released under version 3.0 of the GPL. Everyone has the right to use, modify, and distribute gfetch subject to the [stipulations](https://github.com/jwjacobson/gfetch-cli/blob/main/LICENSE) of that license.
