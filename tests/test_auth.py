@@ -109,3 +109,16 @@ def test_get_credentials_bad_refresh(mock_flow, mock_request, mock_from_file, mo
     mock_token.unlink.assert_called_once()
     mock_flow.assert_called_once()
     assert result == mock_new_creds
+
+
+@patch("pathlib.Path.exists")
+@patch("gfetch.auth.InstalledAppFlow.from_client_secrets_file")
+def test_get_credentials_bad_oauth_flow(mock_flow, mock_exists, capsys):
+    mock_exists.return_value = False
+    mock_flow.side_effect = Exception("OAuth flow failed")
+
+    result = get_credentials()
+
+    output = capsys.readouterr().out.rstrip()
+    assert output == "Error during OAuth flow: OAuth flow failed"
+    assert result is None
