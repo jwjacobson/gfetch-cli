@@ -56,3 +56,25 @@ def test_get_credentials_expired(mock_request, mock_from_file, mock_exists):
     mock_from_file.assert_called_once()
     mock_creds.refresh.assert_called_once()
     assert result == mock_creds
+
+
+@patch("pathlib.Path.exists")
+@patch("gfetch.auth.Credentials.from_authorized_user_file")
+@patch("gfetch.auth.InstalledAppFlow.from_client_secrets_file")
+@patch("builtins.open", mock_open())
+def test_get_credentials_cannot_load_token(mock_flow, mock_from_file, mock_exists, capsys):
+    mock_exists.return_value = True
+    mock_from_file.side_effect = Exception("Failed to load credentials")
+    
+    mock_flow_instance = Mock()
+    mock_new_creds = Mock()
+    mock_new_creds.to_json.return_value = '{"token": "new_token"}'
+    mock_flow_instance.run_local_server.return_value = mock_new_creds
+    mock_flow.return_value = mock_flow_instance
+
+    result = get_credentials()
+
+    output = capsys.readouterr().out.rstrip()
+    assert output == "Error loading credentials: Failed to load credentials"
+    mock_flow.assert_called_once()
+    assert result == mock_new_creds

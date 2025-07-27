@@ -12,8 +12,8 @@ TOKEN = BASE_DIR / config("TOKEN", default='token.json')
 
 
 def get_credentials():
-    
     creds = None
+    
     if TOKEN.exists():
         try:
             creds = Credentials.from_authorized_user_file(TOKEN, SCOPES)
