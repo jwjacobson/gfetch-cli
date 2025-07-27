@@ -31,10 +31,6 @@ def get_credentials():
                 creds = None
 
         if not creds:
-            if not CREDS.exists():
-                print(f"\nNo credentials file ({CREDS}) found.")
-                print("To use the app, generate credentials first at https://console.cloud.google.com/.")
-                print("See https://github.com/jwjacobson/gfetch-cli?tab=readme-ov-file#setting-up-google-cloud for more info.")
             try:
                 flow = InstalledAppFlow.from_client_secrets_file(CREDS, SCOPES)
                 creds = flow.run_local_server(port=0)

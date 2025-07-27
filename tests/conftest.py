@@ -128,6 +128,7 @@ class FakeDirConfig:
         self.RAW_EMAIL_DIR = temp_dirs["raw_email_dir"]
         self.CLEAN_EMAIL_DIR = temp_dirs["clean_email_dir"]
         self.ATTACHMENTS_DIR = temp_dirs["attachments_dir"]
+        self.CREDS = self.BASE_DIR / "credentials.json"
 
 
 @pytest.fixture()
