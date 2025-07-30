@@ -1,18 +1,18 @@
-# Terms of Service for GFetch
+# Terms of Service for Gfetch
 
-*Last Updated: 2025-07-25*
+*Last Updated: 2025-07-30*
 
 ## 1. Acceptance of Terms
 
-By downloading, installing, or using GFetch ("the Application"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, do not use the Application.
+By downloading, installing, or using Gfetch ("the Application"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, do not use the Application.
 
 ## 2. Description of Service
 
-GFetch is a free, open-source desktop application that allows users to download and store their Gmail emails locally on their computer. The Application is licensed under the GNU General Public License v3.0 or later.
+Gfetch is a free, open-source desktop application that allows users to download and store their Gmail emails locally on their computer. The Application is licensed under the GNU General Public License v3.0 or later.
 
 ## 3. User Requirements
 
-To use GFetch, you must:
+To use Gfetch, you must:
 - Have a valid Google account
 - Grant the Application read-only access to your Gmail account
 - Have sufficient storage space on your device for downloaded emails
@@ -20,7 +20,7 @@ To use GFetch, you must:
 ## 4. Use of the Application
 
 ### 4.1 Permitted Use
-You may use GFetch to:
+You may use Gfetch to:
 - Download your own Gmail emails for personal backup
 - Store emails locally on your device
 - Access and manage your downloaded email archives
@@ -34,23 +34,23 @@ You may NOT:
 ## 5. Privacy and Data Handling
 
 ### 5.1 Data Access
-GFetch requires read-only access to your Gmail account to function. The Application will only access email data that you explicitly choose to download.
+Gfetch requires read-only access to your Gmail account to function. The Application will only access email data that you explicitly choose to download.
 
 ### 5.2 Data Storage
-All downloaded data is stored locally on your device. GFetch does not transmit, store, or process your data on any external servers.
+All downloaded data is stored locally on your device. Gfetch does not transmit, store, or process your data on any external servers.
 
 ### 5.3 Data Security
 You are responsible for the security of downloaded emails stored on your device. We recommend using appropriate security measures such as device encryption and access controls.
 
 ## 6. Google API Services
 
-GFetch uses Google API Services to access Gmail data. By using this Application, you also agree to be bound by:
+Gfetch uses Google API Services to access Gmail data. By using this Application, you also agree to be bound by:
 - [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy)
 - [Google Terms of Service](https://policies.google.com/terms)
 
 ## 7. Open Source License
 
-GFetch is distributed under the GNU General Public License v3.0. This means:
+Gfetch is distributed under the GNU General Public License v3.0. This means:
 - The software is provided free of charge
 - You can modify and redistribute the software under the same license
 - The source code is publicly available
@@ -88,4 +88,4 @@ GitHub: https://github.com/jwjacobson/gfetch-cli
 
 ## 15. Entire Agreement
 
-These Terms constitute the entire agreement between you and the developer regarding the use of GFetch and supersede all prior agreements and understandings.
+These Terms constitute the entire agreement between you and the developer regarding the use of Gfetch and supersede all prior agreements and understandings.
